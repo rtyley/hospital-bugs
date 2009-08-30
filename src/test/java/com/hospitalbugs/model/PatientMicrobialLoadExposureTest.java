@@ -5,10 +5,10 @@ import java.util.Map;
 import com.google.common.collect.SortedSetMultimap;
 
 
-public class ProbableInfectionSourceCalculatorTest {
+public class PatientMicrobialLoadExposureTest {
 
 	public void shouldAddToInterval() throws Exception {
-		ProbableInfectionSourceCalculator calculator = new ProbableInfectionSourceCalculator();
+		PatientMicrobialLoadExposure calculator = new PatientMicrobialLoadExposure();
 		
 		Infection infection = new InfectionBuilder().receptionStart;
 		
