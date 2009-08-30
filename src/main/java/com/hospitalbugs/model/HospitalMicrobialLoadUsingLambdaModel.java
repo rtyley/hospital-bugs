@@ -20,8 +20,7 @@ public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialL
 	private float transportFactor;
 	private Duration stepInterval = standardDays(1);
 
-	public HospitalMicrobialLoadUsingLambdaModel(
-			HospitalInfectionDonorOccupancy donorOccupancy, float lambda, float transportFactor) {
+	public HospitalMicrobialLoadUsingLambdaModel(HospitalInfectionDonorOccupancy donorOccupancy, float lambda, float transportFactor) {
 		this.transportFactor = transportFactor;
 		
 		Interval totalInterval = donorOccupancy.getTotalInterval();

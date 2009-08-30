@@ -6,7 +6,7 @@ import org.joda.time.Interval;
 
 public class Patient {
 
-	public Map<Interval, Ward> getWardOccupanciesDuring(Interval interval) {
+	public Map<Interval, Ward> getWardsOccupiedDuring(Interval interval) {
 		// TODO Auto-generated method stub
 		return null;
 	}

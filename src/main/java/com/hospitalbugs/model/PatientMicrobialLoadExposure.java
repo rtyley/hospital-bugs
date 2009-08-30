@@ -15,7 +15,7 @@ public class PatientMicrobialLoadExposure {
 		Interval susceptibilityInterval = infection.getSusceptibility();
 		Patient patient = infection.getPatient();
 		
-		Map<Interval,Ward> patientWardOccupanciesDuringSusceptibility = patient.getWardOccupanciesDuring(susceptibilityInterval);
+		Map<Interval,Ward> patientWardOccupanciesDuringSusceptibility = patient.getWardsOccupiedDuring(susceptibilityInterval);
 		
 		StandardisedMicrobialLoad microbialLoad = ZERO;
 		for (Map.Entry<Interval,Ward> patientWardOccupation : patientWardOccupanciesDuringSusceptibility.entrySet()) {

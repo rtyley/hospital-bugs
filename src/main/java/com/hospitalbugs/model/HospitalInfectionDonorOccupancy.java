@@ -7,31 +7,52 @@ import org.joda.time.Interval;
 
 public class HospitalInfectionDonorOccupancy {
 
-	Map<Ward,WardInfectionHistory> warda;
+	private final Interval totalInterval;
+	Map<Ward,WardInfectionHistory> wardInfectionHistories;
 	
 	public HospitalInfectionDonorOccupancy(Collection<Infection> infections) {
+		Interval totalInterval = null;
 		for (Infection infection : infections) {
 			Patient patient = infection.getPatient();
 			Interval infectiousInterval = infection.getInfectiousInterval();
-			Map<Interval, Ward> wardOccupancies = patient.getWardOccupanciesDuring(infectiousInterval);
-			for (Map.Entry<Interval, Ward> waa : wardOccupancies.entrySet()) {
-				Ward ward = waa.getValue();
-				warda.get(ward).add(infection, waa.getKey());
+			totalInterval = union(totalInterval, infectiousInterval);
+			Map<Interval, Ward> wardsOccupied = patient.getWardsOccupiedDuring(infectiousInterval);
+			for (Map.Entry<Interval, Ward> wardStay : wardsOccupied.entrySet()) {
+				Ward ward = wardStay.getValue();Interval interval = wardStay.getKey();
+				infectionHistoryFor(ward).add(infection, interval);
 			}
 		}
+		this.totalInterval=totalInterval;
 	}
 	
 	public WardInfectionHistory infectionHistoryFor(Ward ward) {
-		return warda.get(ward);
+		return wardInfectionHistories.get(ward);
 	}
 
 	public Interval getTotalInterval() {
-		// TODO Auto-generated method stub
-		return null;
+		return totalInterval;
 	}
 
 	public Collection<Ward> getAllWards() {
-		// TODO Auto-generated method stub
-		return null;
+		return wardInfectionHistories.keySet();
+	}
+	
+	public Interval union(Interval a, Interval b) {
+		if (a==null) {
+			return b;
+		}
+		if (b==null) {
+			return a;
+		}
+		if (a.contains(b)) {
+			return a;
+		}
+		if (b.contains(a)) {
+			return b;
+		}
+		long unionStart=(a.getStartMillis()<b.getStartMillis())?a.getStartMillis():b.getStartMillis();
+		long unionEnd=(a.getEndMillis()>b.getEndMillis())?a.getEndMillis():b.getEndMillis();
+			
+		return new Interval(unionStart,unionEnd);
 	}
 }
