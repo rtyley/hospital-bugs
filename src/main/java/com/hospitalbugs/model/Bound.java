@@ -31,4 +31,40 @@ public class Bound<T extends Comparable<T>> {
 			return val + boundTypeWithClosure.getTextRepresentation();
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((boundTypeWithClosure == null) ? 0 : boundTypeWithClosure
+						.hashCode());
+		result = prime * result + ((val == null) ? 0 : val.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bound other = (Bound) obj;
+		if (boundTypeWithClosure == null) {
+			if (other.boundTypeWithClosure != null)
+				return false;
+		} else if (!boundTypeWithClosure.equals(other.boundTypeWithClosure))
+			return false;
+		if (val == null) {
+			if (other.val != null)
+				return false;
+		} else if (!val.equals(other.val))
+			return false;
+		return true;
+	}
+	
+	
 }

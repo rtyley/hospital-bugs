@@ -1,8 +1,10 @@
 package com.hospitalbugs.model;
 
+import static com.hospitalbugs.model.SimpleInterval.interval;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.nullValue;
 
 import java.util.Collection;
@@ -12,120 +14,107 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.madgag.testsupport.matchers.IsMap;
+
 @RunWith(MockitoJUnitRunner.class)
-public class EventSetTest {
-	public static class Ball {
-		private final Integer start;
-		private final Integer end;
+public class EventMapTest {
 
-		public Ball(Integer start, Integer end) {
-			this.start = start;
-			this.end = end;
-		}
-		
-		@Override
-		public String toString() {
-			return getClass().getSimpleName()+"["+start+"-"+end+"]";
-		}
-	}
-
-
-	EventSet<Integer, Ball> significantInstants;
+	EventMap<Integer, String> significantInstants;
 	
 	@Before
 	public void setUp() {
-		significantInstants = new EventSet<Integer, Ball>(
-				new IntervalTypeAdaptor<Integer, Ball>() {
-					public SimpleInterval<Integer> getIntervalFor(Ball ball) {
-						return new SimpleInterval<Integer>(ball.start,ball.end);
-					}
-		});
+		significantInstants = new EventMap<Integer, String>();
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void shouldNotAllowPartiallyOverlappingIntervals() {
+		significantInstants.put(interval(1, 4), "foo");
+		significantInstants.put(interval(2, 6), "bar");
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void shouldNotAllowEngulfingIntervals() {
+		significantInstants.put(interval(1, 4), "foo");
+		significantInstants.put(interval(0, 6), "bar");
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void shouldNotAllowSubIntervals() {
+		significantInstants.put(interval(1, 4), "foo");
+		significantInstants.put(interval(2, 3), "bar");
 	}
 	
 	@Test
 	public void shouldNotReturnAnEventMoreThanOnce() {
-		Ball ball = new Ball(1, 4);
+		significantInstants.put(interval(1, 4), "Fred");
 		
-		significantInstants.add(ball);
-		
-		Collection<Ball> balls = significantInstants.getSignificantIntervalsDuring(0, 5);
+		Collection<String> balls = significantInstants.getEventsDuring(0, 5);
 		assertThat(balls.size(), equalTo(1));
-		assertThat(balls, hasItem(ball));
+		assertThat(balls, hasItem("Fred"));
 	}
 	
 	@Test
 	public void shouldReturnASignificantIntervalWhichStartsAndEndsOutsideOfTheRequestedBounds() {
-		Ball ball = new Ball(1, 4);
+		significantInstants.put(interval(1, 4), "Fred");
 		
-		significantInstants.add(ball);
-		
-		assertThat(significantInstants.getSignificantIntervalsDuring(2,3), hasItem(ball));
+		assertThat(significantInstants.subMap(2,3), IsMap.containingOnly(interval(1, 4), "Fred"));
 	}
 
 	@Test
 	public void shouldNotReturnEventsOutsideOfBoundsContainingNoEvents() {
-		Ball lowBall = new Ball(1, 2), highBall = new Ball(21, 22);
+		significantInstants.put(interval(1, 2), "foo");
+		significantInstants.put(interval(21, 22), "bar");
 		
-		significantInstants.add(lowBall);
-		significantInstants.add(highBall);
-		
-		assertThat(significantInstants.getSignificantIntervalsDuring(10,20).isEmpty(), equalTo(true));
-		assertThat(significantInstants.getSignificantIntervalsDuring(2,21).isEmpty(), equalTo(true));
+		assertThat(significantInstants.subMap(10,20).isEmpty(), equalTo(true));
+		assertThat(significantInstants.subMap(2,21).isEmpty(), equalTo(true));
 		
 	}
 	
 	@Test
 	public void shouldNotReturnEventsDistantlyEitherSideOfTheRequestedBounds() {
-		Ball lowBall = new Ball(1, 2), middleBall = new Ball(11, 12), highBall = new Ball(21, 22);
+		significantInstants.put(interval(1, 2),"foo");
+		significantInstants.put(interval(11, 12),"bar");
+		significantInstants.put(interval(21, 22),"baz");
 		
-		significantInstants.add(lowBall);
-		significantInstants.add(middleBall);
-		significantInstants.add(highBall);
-		
-		Collection<Ball> found = significantInstants.getSignificantIntervalsDuring(10,20);
-		assertThat(found, hasItem(middleBall));
+		Collection<String> found = significantInstants.getEventsDuring(10,20);
+		assertThat(found, hasItem("bar"));
 		assertThat(found.size(), equalTo(1));
 		
 	}
 	
 	@Test
 	public void shouldNotReturnEventsAbuttingTheRequestedBounds() {
-		Ball lowBall = new Ball(1, 2), middleBall = new Ball(2,3), highBall = new Ball(3,4);
+		significantInstants.put(interval(1, 2),"foo");
+		significantInstants.put(interval(2, 3),"bar");
+		significantInstants.put(interval(3, 4),"baz");
 		
-		significantInstants.add(lowBall);
-		significantInstants.add(middleBall);
-		significantInstants.add(highBall);
-		
-		Collection<Ball> found = significantInstants.getSignificantIntervalsDuring(2,3);
-		assertThat(found, hasItem(middleBall));
+		Collection<String> found = significantInstants.getEventsDuring(2,3);
+		assertThat(found, hasItem("bar"));
 		assertThat(found.toString(), found.size(), equalTo(1));
 	}
 	
 	@Test
 	public void shouldOverrideOtherIntervals() throws Exception {
-		Ball ballA = new Ball(1, 4);
-		
-		significantInstants.add(ballA);
-		
-		Ball ballB = new Ball(0,3);
-		
-		significantInstants.overrideWith(ballB);
-		
-		Ball ballC = new Ball(1,2);
-		significantInstants.overrideWith(ballC);
+		significantInstants.put( interval(1, 4),"foo" );
+		significantInstants.put( interval(10, 20),"apple" );
 
-		assertThat(significantInstants.getSignificantIntervalAt(1), equalTo(ballC));
+		significantInstants.overrideWith(interval(0, 3),"bar" );
+		
+		significantInstants.overrideWith(interval(1, 2),"baz");
+
+		Collection<String> values = significantInstants.values();
+		assertThat(values, hasItems("apple","baz"));
+		assertThat(values.size(), equalTo(2));
 	}
 	
 	@Test
 	public void shouldGetLatestSignificantIntervalStartingAtOrBefore() {
-		Ball ballB = new Ball(2,5);
-		significantInstants.add(ballB);
+		significantInstants.put(interval(2, 5) ,"foo");
 		
 		assertThat(significantInstants.getLatestSignificantIntervalStartingAtOrBefore(1), nullValue());
-		assertThat(significantInstants.getLatestSignificantIntervalStartingAtOrBefore(2), equalTo(ballB));
-		assertThat(significantInstants.getLatestSignificantIntervalStartingAtOrBefore(3), equalTo(ballB));
-		assertThat(significantInstants.getLatestSignificantIntervalStartingAtOrBefore(6), equalTo(ballB));
+		assertThat(significantInstants.getLatestSignificantIntervalStartingAtOrBefore(2), equalTo("foo"));
+		assertThat(significantInstants.getLatestSignificantIntervalStartingAtOrBefore(3), equalTo("foo"));
+		assertThat(significantInstants.getLatestSignificantIntervalStartingAtOrBefore(6), equalTo("foo"));
 	}
 	
 

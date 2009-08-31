@@ -24,6 +24,10 @@ public class SimpleInterval<T extends Comparable<T>> {
 		this.endBound = new Bound<T>(BoundTypeWithClosure.get(MAX, endClosure), end);
 	}
 	
+	public static <T extends Comparable<T>> SimpleInterval<T> interval(T start, T end) {
+		return new SimpleInterval<T>(start,end);
+	}
+	
 	public static <T extends Comparable<T>> SimpleInterval<T> instantInterval(T instant, BoundClosure closure) {
 		return new SimpleInterval<T>(instant, closure, instant, closure);
 	}
@@ -59,8 +63,40 @@ public class SimpleInterval<T extends Comparable<T>> {
 	public boolean overlaps(SimpleInterval<T> other) {
 		return !isBefore(other) && !other.isBefore(this);
 	}
-
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((endBound == null) ? 0 : endBound.hashCode());
+		result = prime * result
+				+ ((startBound == null) ? 0 : startBound.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleInterval other = (SimpleInterval) obj;
+		if (endBound == null) {
+			if (other.endBound != null)
+				return false;
+		} else if (!endBound.equals(other.endBound))
+			return false;
+		if (startBound == null) {
+			if (other.startBound != null)
+				return false;
+		} else if (!startBound.equals(other.startBound))
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return startBound+" - "+ endBound;
