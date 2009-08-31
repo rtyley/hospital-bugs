@@ -37,7 +37,7 @@ public class HospitalInfectionDonorOccupancy {
 		return wardInfectionHistories.keySet();
 	}
 	
-	public Interval union(Interval a, Interval b) {
+	private static Interval union(Interval a, Interval b) {
 		if (a==null) {
 			return b;
 		}

@@ -1,10 +1,15 @@
-package com.hospitalbugs.model;
+package com.hospitalbugs.analysis;
 
 import static com.hospitalbugs.model.StandardisedMicrobialLoad.ZERO;
 
 import java.util.Map;
 
 import org.joda.time.Interval;
+
+import com.hospitalbugs.model.Infection;
+import com.hospitalbugs.model.Patient;
+import com.hospitalbugs.model.StandardisedMicrobialLoad;
+import com.hospitalbugs.model.Ward;
 
 public class PatientMicrobialLoadExposure {
 

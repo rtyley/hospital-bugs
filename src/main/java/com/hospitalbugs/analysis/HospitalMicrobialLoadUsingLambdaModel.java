@@ -1,4 +1,4 @@
-package com.hospitalbugs.model;
+package com.hospitalbugs.analysis;
 
 import static com.google.common.collect.Maps.transformValues;
 import static com.hospitalbugs.model.StandardisedMicrobialLoad.ZERO;
@@ -13,6 +13,10 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 
 import com.google.common.base.Function;
+import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
+import com.hospitalbugs.model.Infection;
+import com.hospitalbugs.model.StandardisedMicrobialLoad;
+import com.hospitalbugs.model.Ward;
 
 public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialLoad {
 

@@ -1,4 +1,4 @@
-package com.hospitalbugs.model;
+package com.hospitalbugs.analysis;
 
 import static com.google.common.collect.Maps.transformValues;
 import static org.joda.time.Duration.standardDays;
@@ -9,6 +9,10 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 
 import com.google.common.base.Function;
+import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
+import com.hospitalbugs.model.Infection;
+import com.hospitalbugs.model.StandardisedMicrobialLoad;
+import com.hospitalbugs.model.Ward;
 
 public class HospitalMicrobialLoadCalculationFactory {
 
@@ -27,8 +31,8 @@ public class HospitalMicrobialLoadCalculationFactory {
 		};
 	}
 	
-	public HospitalMicrobialLoad lambdaModelWithNoTransport(final HospitalInfectionDonorOccupancy donerOccupancy, float lambda) {
-		return new HospitalMicrobialLoadUsingLambdaModel(donerOccupancy, lambda);
+	public HospitalMicrobialLoad lambdaModel(final HospitalInfectionDonorOccupancy donerOccupancy, float lambda, float transport) {
+		return new HospitalMicrobialLoadUsingLambdaModel(donerOccupancy, lambda, transport);
 	}
 
 }
