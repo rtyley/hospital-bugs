@@ -24,8 +24,8 @@ public class SimpleInterval<T extends Comparable<T>> {
 		this.endBound = new Bound<T>(BoundTypeWithClosure.get(MAX, endClosure), end);
 	}
 	
-	public static <T extends Comparable<T>> SimpleInterval<T> instantInterval(T instant) {
-		return new SimpleInterval<T>(instant, CLOSED, instant, CLOSED);
+	public static <T extends Comparable<T>> SimpleInterval<T> instantInterval(T instant, BoundClosure closure) {
+		return new SimpleInterval<T>(instant, closure, instant, closure);
 	}
 	
 	public T getStart() {

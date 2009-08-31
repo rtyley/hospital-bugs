@@ -1,14 +1,15 @@
 package com.madgag.testsupport.matchers;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import static org.hamcrest.Matchers.equalTo;
-import org.hamcrest.TypeSafeMatcher;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Map.Entry;
+
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 public class IsMap<K,V> extends TypeSafeMatcher<Map<K,V>> {
 	private Map<Matcher<K>, Matcher<V>> keyValueConstraints;

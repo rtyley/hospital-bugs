@@ -2,10 +2,8 @@ package com.hospitalbugs.analysis;
 
 import java.util.Map;
 
-import com.google.common.collect.SortedSetMultimap;
 import com.hospitalbugs.model.Infection;
-import com.hospitalbugs.model.PatientMicrobialLoadExposure;
-import com.hospitalbugs.analysis.PatientMicrobialLoadExposure;
+import com.hospitalbugs.model.InfectionBuilder;
 
 
 public class PatientMicrobialLoadExposureTest {

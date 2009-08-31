@@ -3,7 +3,6 @@ package com.hospitalbugs.model;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 import java.util.Collection;
@@ -61,6 +60,18 @@ public class EventSetTest {
 		significantInstants.add(ball);
 		
 		assertThat(significantInstants.getSignificantIntervalsDuring(2,3), hasItem(ball));
+	}
+
+	@Test
+	public void shouldNotReturnEventsOutsideOfBoundsContainingNoEvents() {
+		Ball lowBall = new Ball(1, 2), highBall = new Ball(21, 22);
+		
+		significantInstants.add(lowBall);
+		significantInstants.add(highBall);
+		
+		assertThat(significantInstants.getSignificantIntervalsDuring(10,20).isEmpty(), equalTo(true));
+		assertThat(significantInstants.getSignificantIntervalsDuring(2,21).isEmpty(), equalTo(true));
+		
 	}
 	
 	@Test

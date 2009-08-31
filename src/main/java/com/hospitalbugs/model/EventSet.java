@@ -1,5 +1,7 @@
 package com.hospitalbugs.model;
 
+import static com.hospitalbugs.model.BoundClosure.CLOSED;
+import static com.hospitalbugs.model.BoundClosure.OPEN;
 import static com.hospitalbugs.model.SimpleInterval.instantInterval;
 
 import java.util.Collection;
@@ -18,17 +20,22 @@ public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 	private NavigableMap<SimpleInterval<InstantType>, EventType> events = new TreeMap<SimpleInterval<InstantType>, EventType>(SimpleInterval.OverlapIsEqualityComparator.<InstantType>instance());
 
 	public EventType getSignificantIntervalAt(InstantType instant) {
-		Map.Entry<SimpleInterval<InstantType>, EventType> floorEntry = events.floorEntry(instantInterval(instant));
+		Map.Entry<SimpleInterval<InstantType>, EventType> floorEntry = entryForEventStartingAtOrBefore(instant);
 		if (floorEntry==null) {
 			return null;
 		}
-		EventType event = floorEntry.getValue();
-		return adaptor.getIntervalFor(event).contains(instant) ? event : null;
+		return floorEntry.getKey().contains(instant) ? floorEntry.getValue() : null;
 	}
 	
 	public EventType getLatestSignificantIntervalStartingAtOrBefore(InstantType instant) {
-		Map.Entry<SimpleInterval<InstantType>, EventType> entry = events.floorEntry(instantInterval(instant));
+		Map.Entry<SimpleInterval<InstantType>, EventType> entry = entryForEventStartingAtOrBefore(instant);
 		return entry==null?null:entry.getValue();
+	}
+
+	private Map.Entry<SimpleInterval<InstantType>, EventType> entryForEventStartingAtOrBefore(
+			InstantType instant) {
+		Map.Entry<SimpleInterval<InstantType>, EventType> entry = events.floorEntry(instantInterval(instant, CLOSED));
+		return entry;
 	}
 	
 	public Collection<EventType> getSignificantIntervalsDuring(InstantType start, InstantType end) {
@@ -36,7 +43,7 @@ public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 	}
 	
 	public Collection<EventType> getSignificantIntervalsDuring(SimpleInterval<InstantType> interval) {
-		return events.subMap(instantInterval(interval.getStart()), true, instantInterval(interval.getEnd()), false).values();
+		return events.subMap(instantInterval(interval.getStart(), CLOSED), true, instantInterval(interval.getStart(), OPEN), true).values();
 	}
 
 	public void add(EventType event) {

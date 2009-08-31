@@ -1,6 +1,6 @@
 package com.hospitalbugs.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import org.joda.time.Interval;
 import org.junit.Test;

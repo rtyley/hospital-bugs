@@ -1,5 +1,7 @@
 package com.hospitalbugs.model;
 
+import static com.hospitalbugs.model.BoundClosure.CLOSED;
+import static com.hospitalbugs.model.BoundClosure.OPEN;
 import static com.hospitalbugs.model.SimpleInterval.instantInterval;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -24,6 +26,21 @@ public class SimpleIntervalTest {
 		assertOverlap(false,new SimpleInterval<Integer>(0,5), new SimpleInterval<Integer>(10,20));
 	}
 	
+	@Test
+	public void shouldReturnFalseForOverlapIfIntervalsAbut() {
+		assertOverlap(false,new SimpleInterval<Integer>(10,20), new SimpleInterval<Integer>(20,30));
+	}
+
+	@Test
+	public void shouldReturnTrueForOverlapUsingZeroLengthIntervals() {
+		SimpleInterval<Integer> thickInterval = new SimpleInterval<Integer>(10,20);
+		SimpleInterval<Integer> instantIntervalAtStartOfThick = instantInterval(10, CLOSED);
+		SimpleInterval<Integer> instantIntervalAtEndOfThick = instantInterval(20, OPEN);
+		
+		assertOverlap(true, thickInterval, instantIntervalAtStartOfThick);
+		assertOverlap(false,thickInterval, instantIntervalAtEndOfThick);
+	}
+	
 	private void assertOverlap(boolean expectedOverlap, SimpleInterval<Integer> a, SimpleInterval<Integer> b) {
 		assertThat(assertOverlapMessage(a, b), a.overlaps(b), equalTo(expectedOverlap));
 		assertThat(assertOverlapMessage(b, a), b.overlaps(a), equalTo(expectedOverlap));
@@ -33,19 +50,4 @@ public class SimpleIntervalTest {
 		return "for "+c+" overlaps "+d+" (c<d="+c.isBefore(d)+" c>d="+c.isAfter(d)+" d<c="+d.isBefore(c)+" d>c="+d.isAfter(c)+")";
 	}
 
-	@Test
-	public void shouldReturnTrueForOverlapUsingZeroLengthIntervals() {
-		SimpleInterval<Integer> thickInterval = new SimpleInterval<Integer>(10,20);
-		SimpleInterval<Integer> instantIntervalAtStartOfThick = instantInterval(10);
-		SimpleInterval<Integer> instantIntervalAtEndOfThick = instantInterval(20);
-		
-		assertOverlap(true, thickInterval, instantIntervalAtStartOfThick);
-		assertOverlap(false,thickInterval, instantIntervalAtEndOfThick);
-	}
-	
-	@Test
-	public void shouldReturnFalseForOverlapIfIntervalsAbut() {
-		assertOverlap(false,new SimpleInterval<Integer>(10,20), new SimpleInterval<Integer>(20,30));
-	}
-	
 }
