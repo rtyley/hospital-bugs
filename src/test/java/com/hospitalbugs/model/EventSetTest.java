@@ -54,7 +54,6 @@ public class EventSetTest {
 		assertThat(balls, hasItem(ball));
 	}
 	
-	
 	@Test
 	public void shouldReturnASignificantIntervalWhichStartsAndEndsOutsideOfTheRequestedBounds() {
 		Ball ball = new Ball(1, 4);
@@ -65,14 +64,30 @@ public class EventSetTest {
 	}
 	
 	@Test
-	public void shouldNotReturnEventsEitherSideOfTheRequestedBounds() {
+	public void shouldNotReturnEventsDistantlyEitherSideOfTheRequestedBounds() {
 		Ball lowBall = new Ball(1, 2), middleBall = new Ball(11, 12), highBall = new Ball(21, 22);
 		
 		significantInstants.add(lowBall);
 		significantInstants.add(middleBall);
 		significantInstants.add(highBall);
 		
-		assertThat(significantInstants.getSignificantIntervalsDuring(10,20), not(hasItem(lowBall)));
+		Collection<Ball> found = significantInstants.getSignificantIntervalsDuring(10,20);
+		assertThat(found, hasItem(middleBall));
+		assertThat(found.size(), equalTo(1));
+		
+	}
+	
+	@Test
+	public void shouldNotReturnEventsAbuttingTheRequestedBounds() {
+		Ball lowBall = new Ball(1, 2), middleBall = new Ball(2,3), highBall = new Ball(3,4);
+		
+		significantInstants.add(lowBall);
+		significantInstants.add(middleBall);
+		significantInstants.add(highBall);
+		
+		Collection<Ball> found = significantInstants.getSignificantIntervalsDuring(2,3);
+		assertThat(found, hasItem(middleBall));
+		assertThat(found.toString(), found.size(), equalTo(1));
 	}
 	
 	@Test

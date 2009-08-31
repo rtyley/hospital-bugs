@@ -1,12 +1,11 @@
 package com.hospitalbugs.model;
 
-import java.util.ArrayDeque;
+import static com.hospitalbugs.model.SimpleInterval.instantInterval;
+
 import java.util.Collection;
-import java.util.Deque;
 import java.util.Map;
-import java.util.TreeSet;
-import java.util.concurrent.ConcurrentNavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 
@@ -16,10 +15,10 @@ public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 		this.adaptor = adaptor;
 	}
 
-	private ConcurrentNavigableMap<InstantType, EventType> events = new ConcurrentSkipListMap<InstantType, EventType>();
+	private NavigableMap<SimpleInterval<InstantType>, EventType> events = new TreeMap<SimpleInterval<InstantType>, EventType>(SimpleInterval.OverlapIsEqualityComparator.<InstantType>instance());
 
 	public EventType getSignificantIntervalAt(InstantType instant) {
-		Map.Entry<InstantType, EventType> floorEntry = events.floorEntry(instant);
+		Map.Entry<SimpleInterval<InstantType>, EventType> floorEntry = events.floorEntry(instantInterval(instant));
 		if (floorEntry==null) {
 			return null;
 		}
@@ -28,7 +27,7 @@ public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 	}
 	
 	public EventType getLatestSignificantIntervalStartingAtOrBefore(InstantType instant) {
-		Map.Entry<InstantType, EventType> entry = events.floorEntry(instant);
+		Map.Entry<SimpleInterval<InstantType>, EventType> entry = events.floorEntry(instantInterval(instant));
 		return entry==null?null:entry.getValue();
 	}
 	
@@ -37,17 +36,7 @@ public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 	}
 	
 	public Collection<EventType> getSignificantIntervalsDuring(SimpleInterval<InstantType> interval) {
-		return deDup(eventsOccurringDuring(interval).values());
-	}
-
-	private Collection<EventType> deDup(Collection<EventType> values) {
-		Deque<EventType> events = new ArrayDeque<EventType>(values.size()/2);
-		for (EventType e : values) {
-			if (e!=events.peekLast()) {
-				events.add(e);
-			}
-		}
-		return events;
+		return events.subMap(instantInterval(interval.getStart()), true, instantInterval(interval.getEnd()), false).values();
 	}
 
 	public void add(EventType event) {
@@ -58,68 +47,60 @@ public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 	
 	public void overrideWith(EventType event) {
 		SimpleInterval<InstantType> interval = adaptor.getIntervalFor(event);
-		for (EventType otherSignificantInterval : eventsOccurringDuring(interval).values()) {
+		for (EventType otherSignificantInterval : getSignificantIntervalsDuring(interval)) {
 			remove(otherSignificantInterval);
 		}
 		addWithoutChecking(interval, event);
 	}
 
 	private void checkCanAddEventTo(SimpleInterval<InstantType> interval) {
-		if (events.containsKey(interval.getStart()) || events.containsKey(interval.getEnd())) {
+		if (events.containsKey(interval)) {
 			throw new IllegalArgumentException();
 		}
-		ConcurrentNavigableMap<InstantType, EventType> eventsDuringInterval = eventsOccurringDuring(interval);
-		if (!eventsDuringInterval.isEmpty()) {
-			TreeSet<EventType> currentTenants = new TreeSet<EventType>(eventsDuringInterval.values());
-			throw new IllegalArgumentException("Can't add event with interval " + interval + " - interval already occupied by " + currentTenants);
-		}
+//		ConcurrentNavigableMap<SimpleInterval<InstantType>, EventType> eventsDuringInterval = eventsOccurringDuring(interval);
+//		if (!eventsDuringInterval.isEmpty()) {
+//			TreeSet<EventType> currentTenants = new TreeSet<EventType>(eventsDuringInterval.values());
+//			throw new IllegalArgumentException("Can't add event with interval " + interval + " - interval already occupied by " + currentTenants);
+//		}
 	}
 
 	private void addWithoutChecking(SimpleInterval<InstantType> interval2, EventType event) {
 		SimpleInterval<InstantType> interval = adaptor.getIntervalFor(event);
-		events.put(interval.getStart(), event);
-		events.put(interval.getEnd(), event);
+		events.put(interval, event);
 	}
 
-	private ConcurrentNavigableMap<InstantType, EventType> eventsOccurringDuring(SimpleInterval<InstantType> interval) {
-		return eventsPreciselyWithin(intervalEnclosingEventsOccuringDuring(interval));
-	}
+//	private ConcurrentNavigableMap<SimpleInterval<InstantType>, EventType> eventsOccurringDuring(SimpleInterval<InstantType> interval) {
+//		// return eventsPreciselyWithin(intervalEnclosingEventsOccuringDuring(interval));
+//	}
 	
 	/* This will return every event that has either it's start or end within the interval
 	 * Note this DOES NOT include an event spanning a period that completely encloses the interval
 	 */
-	private ConcurrentNavigableMap<InstantType, EventType> eventsPreciselyWithin(SimpleInterval<InstantType> interval) {
-		return events.subMap(interval.getStart(), interval.getEnd());
-	}
+//	private ConcurrentNavigableMap<SimpleInterval<InstantType>, EventType> eventsPreciselyWithin(SimpleInterval<InstantType> interval) {
+//		return events.subMap(interval.getStart(), interval.getEnd());
+//	}
 
-	private SimpleInterval<InstantType> intervalEnclosingEventsOccuringDuring(SimpleInterval<InstantType> interval) {
-		InstantType start = interval.getStart(), end = interval.getEnd();
-		return new SimpleInterval<InstantType>(
-				valueOrDefault(events.floorKey(start), start),
-				valueOrDefault(events.ceilingKey(end), end));
-	}
+//	private SimpleInterval<InstantType> intervalEnclosingEventsOccuringDuring(SimpleInterval<InstantType> interval) {
+//		InstantType start = interval.getStart(), end = interval.getEnd();
+//		return new SimpleInterval<InstantType>(
+//				valueOrDefault(events.floorKey(start), start),
+//				valueOrDefault(events.ceilingKey(end), end));
+//	}
 
 	private InstantType valueOrDefault(InstantType val, InstantType def) {
 		return val == null ? def : val;
 	}
 
 	private void remove(EventType event) {
-		SimpleInterval<InstantType> otherLogInterval = adaptor.getIntervalFor(event);
-		InstantType start = otherLogInterval.getStart(), end = otherLogInterval.getEnd();
-		if (events.get(start)==event) { // why this check?
-			events.remove(start);
-		}
-		if (events.get(end)==event) { // why this check?
-			events.remove(end);
-		}
+		events.remove(adaptor.getIntervalFor(event));
 	}
 	
 	public SimpleInterval<InstantType> getInterval() {
-		return events.isEmpty()?null:new SimpleInterval<InstantType>(events.firstKey(),events.lastKey());
+		return events.isEmpty()?null:new SimpleInterval<InstantType>(events.firstKey().getStart(),events.lastKey().getEnd());
 	}
 
 //	public int countOccurencesDuring(SimpleInterval<InstantType> interval) {
-//		NavigableMap<InstantType, EventType> subMap = subMapFor(interval,true,true);
+//		NavigableMap<SimpleInterval<InstantType>, EventType> subMap = subMapFor(interval,true,true);
 //		int uniqueCount=0;
 //		EventType prior=null;
 //		for (EventType event : subMap.values()) {
