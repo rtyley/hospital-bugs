@@ -1,6 +1,6 @@
 package com.hospitalbugs.model;
 
-import static com.hospitalbugs.model.SimpleInterval.interval;
+import static com.madgag.intervals.SimpleInterval.interval;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -57,7 +57,7 @@ public class EventMapTest {
 	public void shouldReturnASignificantIntervalWhichStartsAndEndsOutsideOfTheRequestedBounds() {
 		significantInstants.put(interval(1, 4), "Fred");
 		
-		assertThat(significantInstants.subMap(2,3), IsMap.containingOnly(interval(1, 4), "Fred"));
+		assertThat(significantInstants.subMapForEventsDuring(2,3), IsMap.containingOnly(interval(1, 4), "Fred"));
 	}
 
 	@Test
@@ -65,8 +65,8 @@ public class EventMapTest {
 		significantInstants.put(interval(1, 2), "foo");
 		significantInstants.put(interval(21, 22), "bar");
 		
-		assertThat(significantInstants.subMap(10,20).isEmpty(), equalTo(true));
-		assertThat(significantInstants.subMap(2,21).isEmpty(), equalTo(true));
+		assertThat(significantInstants.subMapForEventsDuring(10,20).isEmpty(), equalTo(true));
+		assertThat(significantInstants.subMapForEventsDuring(2,21).isEmpty(), equalTo(true));
 		
 	}
 	

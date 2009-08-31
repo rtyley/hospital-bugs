@@ -1,14 +1,16 @@
 package com.hospitalbugs.model;
 
-import static com.hospitalbugs.model.BoundClosure.CLOSED;
-import static com.hospitalbugs.model.BoundClosure.OPEN;
-import static com.hospitalbugs.model.SimpleInterval.instantInterval;
+import static com.madgag.intervals.BoundClosure.CLOSED;
+import static com.madgag.intervals.BoundClosure.OPEN;
+import static com.madgag.intervals.SimpleInterval.instantInterval;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import com.madgag.intervals.SimpleInterval;
 
 public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 
@@ -36,20 +38,24 @@ public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 	}
 	
 	public Collection<EventType> getEventsDuring(SimpleInterval<InstantType> interval) {
-		return subMapFor(interval).values();
+		return internal_subMapFor(interval).values();
 	}
 	
-	public NavigableMap<SimpleInterval<InstantType>, EventType> subMap(InstantType fromKey, InstantType toKey) {
+	public NavigableMap<SimpleInterval<InstantType>, EventType> subMapForEventsDuring(InstantType fromKey, InstantType toKey) {
 		TreeMap<SimpleInterval<InstantType>, EventType> copyMap = new TreeMap<SimpleInterval<InstantType>, EventType>(SimpleInterval.OverlapIsEqualityComparator.<InstantType>instance());
 		copyMap.putAll(internal_subMap(fromKey, toKey));
 		return copyMap;
+	}
+	
+	public NavigableMap<SimpleInterval<InstantType>, EventType> subMapForEventsDuring(SimpleInterval<InstantType> simpleInterval) {
+		return subMapForEventsDuring(simpleInterval.getStart(), simpleInterval.getEnd());
 	}
 	
 	private NavigableMap<SimpleInterval<InstantType>, EventType> internal_subMap(InstantType fromKey, InstantType toKey) {
 		return events.subMap(instantInterval(fromKey, CLOSED), true, instantInterval(toKey, OPEN), true);
 	}
 	
-	private NavigableMap<SimpleInterval<InstantType>, EventType> subMapFor(SimpleInterval<InstantType> interval) {
+	private NavigableMap<SimpleInterval<InstantType>, EventType> internal_subMapFor(SimpleInterval<InstantType> interval) {
 		return internal_subMap(interval.getStart(), interval.getEnd());
 	}
 
@@ -59,7 +65,7 @@ public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 	}
 	
 	public void overrideWith(SimpleInterval<InstantType> interval, EventType event) {
-		subMapFor(interval).clear();
+		internal_subMapFor(interval).clear();
 		addWithoutChecking(interval, event);
 	}
 
@@ -80,4 +86,6 @@ public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 	public Collection<EventType> values() {
 		return events.values();
 	}
+
+
 }

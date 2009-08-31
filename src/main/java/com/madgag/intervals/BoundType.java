@@ -1,4 +1,4 @@
-package com.hospitalbugs.model;
+package com.madgag.intervals;
 
 public enum BoundType {
 	MIN {

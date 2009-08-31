@@ -1,22 +1,21 @@
 package com.hospitalbugs.model;
 
-import static com.hospitalbugs.model.SimpleInterval.interval;
-
-import java.util.Map;
+import java.util.NavigableMap;
 
 import org.joda.time.Interval;
 
+import com.madgag.intervals.JodaEventMap;
+
 public class Patient {
 
-	@SuppressWarnings("unchecked")
-	private EventMap wardStays = new EventMap();
+	private JodaEventMap<Ward> wardStays = new JodaEventMap<Ward>();
 
-	public Map<Interval, Ward> getWardsOccupiedDuring(Interval interval) {
-		return wardStays.;
+	public NavigableMap<Interval, Ward> getWardsOccupiedDuring(Interval interval) {
+		return wardStays.subMapForEventsDuring(interval);
 	}
 
 	public void addWardStay(Ward ward, Interval interval) {
-		wardStays.put(interval(interval.getStart(), interval.getEnd()), ward );
+		wardStays.put(interval, ward );
 	}
 
 	

@@ -1,13 +1,12 @@
-package com.hospitalbugs.model;
+package com.madgag.intervals;
 
-import static com.hospitalbugs.model.BoundClosure.CLOSED;
-import static com.hospitalbugs.model.BoundClosure.OPEN;
-import static com.hospitalbugs.model.SimpleInterval.instantInterval;
+import static com.madgag.intervals.BoundClosure.CLOSED;
+import static com.madgag.intervals.BoundClosure.OPEN;
+import static com.madgag.intervals.SimpleInterval.instantInterval;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-
 
 public class SimpleIntervalTest {
 

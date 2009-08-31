@@ -1,9 +1,9 @@
-package com.hospitalbugs.model;
+package com.madgag.intervals;
 
-import static com.hospitalbugs.model.BoundClosure.CLOSED;
-import static com.hospitalbugs.model.BoundClosure.OPEN;
-import static com.hospitalbugs.model.BoundType.MAX;
-import static com.hospitalbugs.model.BoundType.MIN;
+import static com.madgag.intervals.BoundClosure.CLOSED;
+import static com.madgag.intervals.BoundClosure.OPEN;
+import static com.madgag.intervals.BoundType.MAX;
+import static com.madgag.intervals.BoundType.MIN;
 
 import java.util.Comparator;
 

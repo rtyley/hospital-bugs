@@ -1,9 +1,9 @@
 package com.hospitalbugs.model;
 
-import static com.hospitalbugs.model.BoundTypeWithClosure.MAX_CLOSED;
-import static com.hospitalbugs.model.BoundTypeWithClosure.MAX_OPEN;
-import static com.hospitalbugs.model.BoundTypeWithClosure.MIN_CLOSED;
-import static com.hospitalbugs.model.BoundTypeWithClosure.MIN_OPEN;
+import static com.madgag.intervals.BoundTypeWithClosure.MAX_CLOSED;
+import static com.madgag.intervals.BoundTypeWithClosure.MAX_OPEN;
+import static com.madgag.intervals.BoundTypeWithClosure.MIN_CLOSED;
+import static com.madgag.intervals.BoundTypeWithClosure.MIN_OPEN;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
