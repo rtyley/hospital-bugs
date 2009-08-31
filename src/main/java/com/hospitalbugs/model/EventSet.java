@@ -71,8 +71,7 @@ public class EventSet<InstantType extends Comparable<InstantType>, EventType> {
 //		}
 	}
 
-	private void addWithoutChecking(SimpleInterval<InstantType> interval2, EventType event) {
-		SimpleInterval<InstantType> interval = adaptor.getIntervalFor(event);
+	private void addWithoutChecking(SimpleInterval<InstantType> interval, EventType event) {
 		events.put(interval, event);
 	}
 
