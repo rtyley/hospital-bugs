@@ -1,4 +1,4 @@
-package com.hospitalbugs.model;
+package com.madgag.intervals;
 
 import static com.madgag.intervals.BoundTypeWithClosure.MAX_CLOSED;
 import static com.madgag.intervals.BoundTypeWithClosure.MAX_OPEN;

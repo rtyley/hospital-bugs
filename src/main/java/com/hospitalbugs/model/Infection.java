@@ -16,8 +16,8 @@ public class Infection {
 		if (transition.isAfter(endOfInfectiousness)) {
 			throw new IllegalArgumentException();
 		}
-		infectiousInterval = new Interval(susceptibilityStart, transition);
-		susceptibilityInterval = new Interval(transition, endOfInfectiousness);
+		susceptibilityInterval = new Interval(susceptibilityStart, transition);
+		infectiousInterval = new Interval(transition, endOfInfectiousness);
 	}
 
 	public Patient getPatient() {

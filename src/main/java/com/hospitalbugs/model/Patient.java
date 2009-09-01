@@ -1,6 +1,6 @@
 package com.hospitalbugs.model;
 
-import java.util.NavigableMap;
+import java.util.Map;
 
 import org.joda.time.Interval;
 
@@ -10,7 +10,7 @@ public class Patient {
 
 	private JodaEventMap<Ward> wardStays = new JodaEventMap<Ward>();
 
-	public NavigableMap<Interval, Ward> getWardsOccupiedDuring(Interval interval) {
+	public Map<Interval, Ward> getWardsOccupiedDuring(Interval interval) {
 		return wardStays.subMapForEventsDuring(interval);
 	}
 

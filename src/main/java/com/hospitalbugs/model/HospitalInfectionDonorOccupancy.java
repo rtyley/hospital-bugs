@@ -1,6 +1,7 @@
 package com.hospitalbugs.model;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.joda.time.Interval;
@@ -8,7 +9,8 @@ import org.joda.time.Interval;
 public class HospitalInfectionDonorOccupancy {
 
 	private final Interval totalInterval;
-	Map<Ward,WardInfectionHistory> wardInfectionHistories;
+	
+	private final Map<Ward,WardInfectionHistory> wardInfectionHistories = new HashMap<Ward, WardInfectionHistory>();
 	
 	public HospitalInfectionDonorOccupancy(Collection<Infection> infections) {
 		Interval totalInterval = null;
@@ -18,7 +20,7 @@ public class HospitalInfectionDonorOccupancy {
 			totalInterval = union(totalInterval, infectiousInterval);
 			Map<Interval, Ward> wardsOccupied = patient.getWardsOccupiedDuring(infectiousInterval);
 			for (Map.Entry<Interval, Ward> wardStay : wardsOccupied.entrySet()) {
-				Ward ward = wardStay.getValue();Interval interval = wardStay.getKey();
+				Ward ward = wardStay.getValue();Interval interval = wardStay.getKey().overlap(infectiousInterval);
 				infectionHistoryFor(ward).add(infection, interval);
 			}
 		}
@@ -26,7 +28,11 @@ public class HospitalInfectionDonorOccupancy {
 	}
 	
 	public WardInfectionHistory infectionHistoryFor(Ward ward) {
-		return wardInfectionHistories.get(ward);
+		WardInfectionHistory wardInfectionHistory = wardInfectionHistories.get(ward);
+		if (wardInfectionHistory==null) {
+			wardInfectionHistories.put(ward, wardInfectionHistory=new WardInfectionHistory());
+		}
+		return wardInfectionHistory;
 	}
 
 	public Interval getTotalInterval() {

@@ -1,4 +1,4 @@
-package com.hospitalbugs.model;
+package com.madgag.intervals;
 
 import static com.madgag.intervals.BoundClosure.CLOSED;
 import static com.madgag.intervals.BoundClosure.OPEN;
@@ -7,10 +7,9 @@ import static com.madgag.intervals.SimpleInterval.instantInterval;
 import java.util.Collection;
 import java.util.Map;
 import java.util.NavigableMap;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
-import com.madgag.intervals.SimpleInterval;
+
 
 public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 
