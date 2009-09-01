@@ -24,9 +24,10 @@ public class StandardisedMicrobialLoad {
 		Map<Infection,Float> added = new HashMap<Infection, Float>(load);
 		for (Map.Entry<Infection,Float> loadEntry : additionalLoad.load.entrySet()) {
 			Infection infection = loadEntry.getKey();
-			float currentMicrobialLoadForInfection = added.get(infection);
+			float currentMicrobialLoadForInfection = nullIsZero(added.get(infection));
 			float additionalMicrobialLoadForInfection = loadEntry.getValue();
-			added.put(infection, currentMicrobialLoadForInfection + additionalMicrobialLoadForInfection);
+			float newLoad = currentMicrobialLoadForInfection + additionalMicrobialLoadForInfection;
+			added.put(infection, newLoad);
 		}
 		return new StandardisedMicrobialLoad(added);
 	}
@@ -36,11 +37,21 @@ public class StandardisedMicrobialLoad {
 		Map<Infection,Float> added = new HashMap<Infection, Float>(load);
 		for (Map.Entry<Infection,Float> loadEntry : additionalLoad.load.entrySet()) {
 			Infection infection = loadEntry.getKey();
-			float currentMicrobialLoadForInfection = added.get(infection);
+			float currentMicrobialLoadForInfection = nullIsZero(added.get(infection));
 			float additionalMicrobialLoadForInfection = loadEntry.getValue() * scalar;
 			added.put(infection, currentMicrobialLoadForInfection + additionalMicrobialLoadForInfection);
 		}
 		return new StandardisedMicrobialLoad(added);
 	}
+
+	public float forInfection(Infection infection) {
+		return nullIsZero(load.get(infection));
+	}
+
+	private static float nullIsZero(Float l) {
+		return l==null?0:l;
+	}
+	
+	
 	
 }

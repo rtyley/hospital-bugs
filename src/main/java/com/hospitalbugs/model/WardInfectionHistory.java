@@ -15,7 +15,10 @@ public class WardInfectionHistory {
 	public Map<Infection, Duration> infectionSourcesFor(Interval interval) {
 		Map<Infection, Duration> infectionDurations = new HashMap<Infection, Duration>();
 		for (Map.Entry<Infection,JodaEventSet> entry : infections.entrySet()) {
-			infectionDurations.put(entry.getKey(), entry.getValue().totalSubSetDurationFor(interval));
+			Duration infectionDurationDuringInterval = entry.getValue().totalSubSetDurationFor(interval);
+			if (!infectionDurationDuringInterval.equals(Duration.ZERO)) {
+				infectionDurations.put(entry.getKey(), infectionDurationDuringInterval);
+			}
 		}
 		return infectionDurations;
 	}

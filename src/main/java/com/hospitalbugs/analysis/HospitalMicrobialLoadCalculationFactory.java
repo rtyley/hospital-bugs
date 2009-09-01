@@ -16,11 +16,11 @@ import com.hospitalbugs.model.Ward;
 
 public class HospitalMicrobialLoadCalculationFactory {
 
-	public HospitalMicrobialLoad simpleModelWithImmediateFallOffOfMicrobialLoad(final HospitalInfectionDonorOccupancy donerOccupancy) {
+	public HospitalMicrobialLoad simpleModelWithImmediateFallOffOfMicrobialLoad(final HospitalInfectionDonorOccupancy donorOccupancy) {
 		return new HospitalMicrobialLoad() {
 			@Override
 			public StandardisedMicrobialLoad microbialLoadFor(Ward ward, Interval wardOccupationInterval) {
-				Map<Infection, Duration> infectionSources = donerOccupancy.infectionHistoryFor(ward).infectionSourcesFor(wardOccupationInterval);
+				Map<Infection, Duration> infectionSources = donorOccupancy.infectionHistoryFor(ward).infectionSourcesFor(wardOccupationInterval);
 				Map<Infection, Float> loadMap = transformValues(infectionSources, new Function<Duration, Float>() {
 					public Float apply(Duration duration) {
 						return ((float) duration.getMillis()) / standardDays(1).getMillis();
@@ -31,8 +31,8 @@ public class HospitalMicrobialLoadCalculationFactory {
 		};
 	}
 	
-	public HospitalMicrobialLoad lambdaModel(final HospitalInfectionDonorOccupancy donerOccupancy, float lambda, float transport) {
-		return new HospitalMicrobialLoadUsingLambdaModel(donerOccupancy, lambda, transport);
+	public HospitalMicrobialLoad lambdaModel(final HospitalInfectionDonorOccupancy donorOccupancy, float lambda, float transport) {
+		return new HospitalMicrobialLoadUsingLambdaModel(donorOccupancy, lambda, transport);
 	}
 
 }

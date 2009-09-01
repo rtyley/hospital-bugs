@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NavigableMap;
+import java.util.TreeMap;
 
 import org.joda.time.Duration;
 import org.joda.time.Interval;
@@ -17,12 +18,13 @@ import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
 import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.StandardisedMicrobialLoad;
 import com.hospitalbugs.model.Ward;
+import com.madgag.intervals.JodaEventMap;
 
 public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialLoad {
 
 	private Map<Ward,WardData> map;
 	private float transportFactor;
-	private Duration stepInterval = standardDays(1);
+	private Duration stepDuration = standardDays(1);
 
 	public HospitalMicrobialLoadUsingLambdaModel(HospitalInfectionDonorOccupancy donorOccupancy, float lambda, float transportFactor) {
 		this.transportFactor = transportFactor;
@@ -30,11 +32,14 @@ public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialL
 		Interval totalInterval = donorOccupancy.getTotalInterval();
 		map = new HashMap<Ward,WardData>();
 		Interval priorInterval = null;
-		for (Interval interval = totalInterval.withDurationAfterStart(stepInterval);
-			interval.isAfter(totalInterval);
-			interval=stepInterval.toIntervalFrom(interval.getEnd())) {
+		for (Interval interval = totalInterval.withDurationAfterStart(stepDuration);
+			!interval.isAfter(totalInterval.getEnd().plus(Duration.standardDays(5)));
+			interval=stepDuration.toIntervalFrom(interval.getEnd())) {
 			for (Ward ward : donorOccupancy.getAllWards()) {
 				WardData wardData = map.get(ward);
+				if (wardData==null) {
+					map.put(ward, wardData=new WardData());
+				}
 				StandardisedMicrobialLoad load = ZERO;
 				if (priorInterval!=null) {
 					load = load.addWithScalar(wardData.microbialLoadFor(priorInterval), lambda);
@@ -45,7 +50,9 @@ public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialL
 						return 1f; // TODO do anything about partial duration or interval?
 					}
 				} );
-				load.add(StandardisedMicrobialLoad.of(loadMap));
+				load=load.add(StandardisedMicrobialLoad.of(loadMap));
+				wardData.set(load,interval);
+				priorInterval = interval;
 			}
 		}
 	}
@@ -65,15 +72,19 @@ public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialL
 	}
 	
 	static class WardData {
-		NavigableMap<Interval, StandardisedMicrobialLoad> data;
+		JodaEventMap<StandardisedMicrobialLoad> data = new JodaEventMap<StandardisedMicrobialLoad>();
 		
 		StandardisedMicrobialLoad microbialLoadFor(Interval wardOccupationInterval) {
 			StandardisedMicrobialLoad totalLoad = ZERO;
-			Collection<StandardisedMicrobialLoad> loads = data.subMap(wardOccupationInterval, wardOccupationInterval).values();
+			Collection<StandardisedMicrobialLoad> loads = data.subMapForEventsDuring(wardOccupationInterval).values();
 			for (StandardisedMicrobialLoad load : loads) {
 				totalLoad = totalLoad.add(load);
 			}
 			return totalLoad;
+		}
+
+		public void set(StandardisedMicrobialLoad load, Interval interval) {
+			data.put(interval, load);
 		}
 	}
 
