@@ -19,16 +19,14 @@ public class BoundTypeWithClosureTest {
 		assertThat(MIN_CLOSED.isOnside(0), equalTo(true));
 		assertThat(MAX_CLOSED.isOnside(0), equalTo(true));
 
-		assertThat(MIN_OPEN.isOnside(-1), equalTo(false));
-		assertThat(MAX_OPEN.isOnside(-1), equalTo(true));
-		assertThat(MIN_OPEN.isOnside(1), equalTo(true));
-		assertThat(MAX_OPEN.isOnside(1), equalTo(false));
+		assertThat(MIN_OPEN.isOnside(1), equalTo(false));
+		assertThat(MAX_OPEN.isOnside(1), equalTo(true));
+		assertThat(MIN_OPEN.isOnside(-1), equalTo(true));
+		assertThat(MAX_OPEN.isOnside(-1), equalTo(false));
 
-		assertThat(MIN_CLOSED.isOnside(-1), equalTo(false));
-		assertThat(MAX_CLOSED.isOnside(-1), equalTo(true));
-		assertThat(MIN_CLOSED.isOnside(1), equalTo(true));
-		assertThat(MAX_CLOSED.isOnside(1), equalTo(false));
-		
-		
+		assertThat(MIN_CLOSED.isOnside(1), equalTo(false));
+		assertThat(MAX_CLOSED.isOnside(1), equalTo(true));
+		assertThat(MIN_CLOSED.isOnside(-1), equalTo(true));
+		assertThat(MAX_CLOSED.isOnside(-1), equalTo(false));
 	}
 }
