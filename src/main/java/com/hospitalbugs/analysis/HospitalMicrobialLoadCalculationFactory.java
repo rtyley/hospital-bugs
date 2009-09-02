@@ -31,7 +31,7 @@ public class HospitalMicrobialLoadCalculationFactory {
 		};
 	}
 	
-	public HospitalMicrobialLoad lambdaModel(final HospitalInfectionDonorOccupancy donorOccupancy, float lambda, float transport) {
+	public HospitalMicrobialLoad lambdaModel(HospitalInfectionDonorOccupancy donorOccupancy, float lambda, TransportFunction transport) {
 		return new HospitalMicrobialLoadUsingLambdaModel(donorOccupancy, lambda, transport);
 	}
 
