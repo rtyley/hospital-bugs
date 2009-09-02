@@ -4,7 +4,9 @@ import org.joda.time.Interval;
 
 public class PatientBuilder {
 
-	Patient patient = new Patient();
+	private static int defaultPatientId = 0;
+	
+	Patient patient = new Patient(newPatientId());
 	
 	public PatientBuilder wardStay(Ward ward, Interval interval) {
 		patient.addWardStay(ward, interval);
@@ -15,4 +17,7 @@ public class PatientBuilder {
 		return patient;
 	}
 
+	private static String newPatientId() {
+		return "P"+(defaultPatientId++);
+	}
 }

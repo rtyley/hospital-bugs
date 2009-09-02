@@ -1,8 +1,8 @@
 package com.hospitalbugs.model;
 
-import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.ReadableInstant;
+import org.joda.time.format.ISODateTimeFormat;
 
 public class Infection {
 
@@ -33,4 +33,8 @@ public class Infection {
 		return susceptibilityInterval;
 	}
 
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+"["+patient+":"+ISODateTimeFormat.date().print(infectiousInterval.getStart())+"]";
+	}
 }

@@ -11,8 +11,8 @@ import com.madgag.testsupport.matchers.IsMap;
 public class PatientTest {
 
 	@Test
-	public void shouldDo() throws Exception {
-		Patient patient = new Patient();
+	public void shouldCorrectlyReturnWardStaysDuringInterval() throws Exception {
+		Patient patient = new PatientBuilder().toPatient();
 		Ward ward1 = new WardBuilder().toWard(), ward2= new WardBuilder().toWard();
 		patient.addWardStay(ward1, new Interval(100, 107));
 		patient.addWardStay(ward2, new Interval(200, 207));
