@@ -44,6 +44,7 @@ public class Bound<T extends Comparable<T>> {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -75,6 +75,7 @@ public class SimpleInterval<T extends Comparable<T>> {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

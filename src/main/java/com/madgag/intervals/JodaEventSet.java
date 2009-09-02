@@ -5,7 +5,6 @@ import static com.madgag.intervals.SimpleInterval.interval;
 import java.util.Set;
 
 import org.joda.time.Duration;
-import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.ReadableInstant;
 
