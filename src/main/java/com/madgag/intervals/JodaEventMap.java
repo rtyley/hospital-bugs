@@ -36,5 +36,14 @@ public class JodaEventMap<V> {
 	private SimpleInterval simpleInterval(Interval interval) {
 		return interval(interval.getStart(), interval.getEnd());
 	}
+	
+	public Interval getInterval() {
+		return jodaInterval(eventMap.getInterval());
+	}
+	
+	@Override
+	public String toString() {
+		return eventMap.toString();
+	}
 
 }

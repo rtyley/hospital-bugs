@@ -52,6 +52,9 @@ public class StandardisedMicrobialLoad {
 		return l==null?0:l;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+"["+load.toString()+"]";
+	}
 	
 }

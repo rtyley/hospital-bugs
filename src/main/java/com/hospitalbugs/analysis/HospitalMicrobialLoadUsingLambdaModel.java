@@ -71,6 +71,11 @@ public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialL
 		return totalLoad;
 	}
 	
+	@Override
+	public String toString() {
+		return getClass().getSimpleName()+"["+map.size()+" wards]";
+	}
+	
 	static class WardData {
 		JodaEventMap<StandardisedMicrobialLoad> data = new JodaEventMap<StandardisedMicrobialLoad>();
 		
@@ -85,6 +90,11 @@ public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialL
 
 		public void set(StandardisedMicrobialLoad load, Interval interval) {
 			data.put(interval, load);
+		}
+		
+		@Override
+		public String toString() {
+			return getClass().getSimpleName()+"[for " +data.getInterval()+" : "+ data.toString() +"]";
 		}
 	}
 

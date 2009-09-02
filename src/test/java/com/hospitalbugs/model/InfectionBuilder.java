@@ -1,19 +1,23 @@
 package com.hospitalbugs.model;
 
+import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
+import org.joda.time.ReadableInstant;
 
 public class InfectionBuilder {
 
-	Instant susceptibilityStart,  transition , endOfInfectiousness;
+	ReadableInstant susceptibilityStart,  transition , endOfInfectiousness;
 	private Patient patient;
 	
 	public InfectionBuilder infectious(Interval infectiousInterval) {
-		transition = infectiousInterval.getStart().toInstant();
-		endOfInfectiousness = infectiousInterval.getEnd().toInstant();
-		if (susceptibilityStart==null) {
-			susceptibilityStart = transition.minus(1);
-		}
+		return susceptabilityAndInfectiousness(new Duration(1),  infectiousInterval);
+	}
+	
+	public InfectionBuilder susceptabilityAndInfectiousness(Duration susceptabilityDuration, Interval infectiousInterval) {
+		susceptibilityStart = infectiousInterval.getStart().minus(susceptabilityDuration);
+		transition = infectiousInterval.getStart();
+		endOfInfectiousness = infectiousInterval.getEnd();
 		return this;
 	}
 

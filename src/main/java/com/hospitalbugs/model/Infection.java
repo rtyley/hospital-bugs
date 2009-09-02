@@ -2,13 +2,14 @@ package com.hospitalbugs.model;
 
 import org.joda.time.Instant;
 import org.joda.time.Interval;
+import org.joda.time.ReadableInstant;
 
 public class Infection {
 
 	private final Patient patient;
 	private final Interval infectiousInterval, susceptibilityInterval;
 
-	public Infection(Patient patient, Instant susceptibilityStart, Instant transition, Instant endOfInfectiousness) {
+	public Infection(Patient patient, ReadableInstant susceptibilityStart, ReadableInstant transition, ReadableInstant endOfInfectiousness) {
 		this.patient = patient;
 		if (susceptibilityStart.isAfter(transition)) {
 			throw new IllegalArgumentException();

@@ -87,4 +87,8 @@ public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 	}
 
 
+	@Override
+	public String toString() {
+		return events.toString();
+	}
 }

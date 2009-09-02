@@ -3,8 +3,11 @@ package com.hospitalbugs.analysis;
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.joda.time.Duration.standardDays;
 
+import org.joda.time.Duration;
+import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.junit.Test;
 
@@ -18,6 +21,8 @@ import com.hospitalbugs.model.WardBuilder;
 
 
 public class HospitalMicrobialLoadUsingLambdaModelTest {
+	float lambda = 0.7f;
+	float transport = 0.2f;
 
 	@Test
 	public void shouldMonkeyItUp() throws Exception {
@@ -28,8 +33,6 @@ public class HospitalMicrobialLoadUsingLambdaModelTest {
 		Infection infection = new InfectionBuilder().patient(patient).infectious(infectiousInterval).toInfection();
 		HospitalInfectionDonorOccupancy donorOccupancy = new HospitalInfectionDonorOccupancy(asList(infection));
 		
-		float lambda = 0.7f;
-		float transport = 0.2f;
 		HospitalMicrobialLoad hospitalMicrobialLoad =
 			new HospitalMicrobialLoadCalculationFactory().lambdaModel(donorOccupancy, lambda, transport);
 		
@@ -40,5 +43,18 @@ public class HospitalMicrobialLoadUsingLambdaModelTest {
 		Interval oneDayAfter = standardDays(1).toIntervalFrom(dayOfInfection.getEnd());
 		assertThat(hospitalMicrobialLoad.microbialLoadFor(ward, oneDayAfter).forInfection(infection), equalTo(lambda));
 		assertThat(hospitalMicrobialLoad.microbialLoadFor(otherWard, oneDayAfter).forInfection(infection), equalTo(transport*lambda));
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void shouldHandleABigBunchOfData() throws Exception {
+		Interval totalInterval = new Interval(new Instant(), standardDays(365*3));
+		HospitalInfectionDonorOccupancy donorOccupancy = RandomHospitalInfectionDataFactory.generate(totalInterval, 2000, 30);
+		Interval donorOccupancyTotalInterval = donorOccupancy.getTotalInterval();
+		assertThat(donorOccupancyTotalInterval.toDuration(), greaterThan(standardDays(365)));
+		HospitalMicrobialLoad hospitalMicrobialLoad =
+			new HospitalMicrobialLoadCalculationFactory().lambdaModel(donorOccupancy, lambda, transport);
+		
+		System.out.println("ba");
 	}
 }
