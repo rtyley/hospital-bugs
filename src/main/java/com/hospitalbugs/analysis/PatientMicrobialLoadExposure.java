@@ -25,12 +25,11 @@ public class PatientMicrobialLoadExposure {
 		StandardisedMicrobialLoad microbialLoad = ZERO;
 		for (Map.Entry<Interval,Ward> patientWardOccupation : patientWardOccupanciesDuringSusceptibility.entrySet()) {
 			Ward ward = patientWardOccupation.getValue();
-			Interval wardOccupationInterval = patientWardOccupation.getKey();
+			Interval wardOccupationDuringSusceptibility = patientWardOccupation.getKey().overlap(susceptibilityInterval);
 			
-			microbialLoad = microbialLoad.add(hospitalMicrobialLoad.microbialLoadFor(ward,wardOccupationInterval));
+			microbialLoad = microbialLoad.add(hospitalMicrobialLoad.microbialLoadFor(ward,wardOccupationDuringSusceptibility));
 		}
-		
-		return microbialLoad;
+		return microbialLoad.remove(infection);
 	}
 
 }
