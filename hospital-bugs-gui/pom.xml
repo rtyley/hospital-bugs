@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.madgag</groupId>
 	<artifactId>hospital-bugs-gui</artifactId>
-	<version>1.1</version>
+	<version>1.2-SNAPSHOT</version>
 	<name>Hospital Bugs GUI</name>
 	<parent>
 		<groupId>com.madgag</groupId>
 		<artifactId>hospital-bugs-parent</artifactId>
-		<version>1.1</version>
+		<version>1.2-SNAPSHOT</version>
 	</parent>
 	<packaging>jar</packaging>
 	<organization>
@@ -18,12 +18,12 @@
 		<dependency>
 			<groupId>com.madgag</groupId>
 			<artifactId>hospital-bugs</artifactId>
-			<version>1.1</version>
+			<version>1.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.madgag</groupId>
 			<artifactId>util</artifactId>
-			<version>1.1</version>
+			<version>1.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.jung</groupId>
