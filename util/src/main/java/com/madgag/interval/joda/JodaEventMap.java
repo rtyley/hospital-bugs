@@ -1,4 +1,4 @@
-package com.madgag.intervals.joda;
+package com.madgag.interval.joda;
 
 import static com.madgag.interval.SimpleInterval.interval;
 

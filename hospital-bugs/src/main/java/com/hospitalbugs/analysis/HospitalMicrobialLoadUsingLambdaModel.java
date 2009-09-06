@@ -17,7 +17,7 @@ import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.StandardisedMicrobialLoad;
 import com.hospitalbugs.model.Ward;
 import com.hospitalbugs.model.WardInfectionHistory;
-import com.madgag.intervals.joda.JodaEventMap;
+import com.madgag.interval.joda.JodaEventMap;
 
 public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialLoad {
 

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.joda.time.Interval;
 
-import com.madgag.intervals.joda.JodaEventMap;
+import com.madgag.interval.joda.JodaEventMap;
 
 public class Patient {
 
