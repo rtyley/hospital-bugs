@@ -1,9 +1,8 @@
-package com.hospitalbugs.parser;
+package com.hospitalbugs.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.hospitalbugs.model.Patient;
 
 public class PatientFactory {
 

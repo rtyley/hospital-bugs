@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-
-
 public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 
 	private NavigableMap<SimpleInterval<InstantType>, EventType> events = new TreeMap<SimpleInterval<InstantType>, EventType>(SimpleInterval.OverlapIsEqualityComparator.<InstantType>instance());

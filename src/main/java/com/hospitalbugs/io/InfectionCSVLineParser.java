@@ -1,4 +1,4 @@
-package com.hospitalbugs.parser;
+package com.hospitalbugs.io;
 
 import static org.joda.time.format.ISODateTimeFormat.dateHourMinute;
 
@@ -10,6 +10,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.Patient;
+import com.hospitalbugs.model.PatientFactory;
 import com.madgag.util.csv.CSVLineParser;
 
 public class InfectionCSVLineParser implements CSVLineParser<Infection> {

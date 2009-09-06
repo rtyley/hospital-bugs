@@ -1,4 +1,4 @@
-package com.hospitalbugs.parser;
+package com.hospitalbugs.io;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,16 +15,19 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.hospitalbugs.fixtures.PatientBuilder;
+import com.hospitalbugs.io.InfectionCSVLineParser;
 import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.Patient;
+import com.hospitalbugs.model.PatientFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InfectionCSVLineParserTest {
 	@Mock PatientFactory patientFactory;
 	
+	private final DateTimeZone dateTimeZone = DateTimeZone.forID("Europe/London");
+		
 	@Test
 	public void shouldParseSampleLine() {
-		DateTimeZone dateTimeZone = DateTimeZone.forID("Europe/London");
 
 		Patient patient = new PatientBuilder().toPatient();
 		

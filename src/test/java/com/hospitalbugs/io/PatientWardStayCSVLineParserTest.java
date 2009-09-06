@@ -1,4 +1,4 @@
-package com.hospitalbugs.parser;
+package com.hospitalbugs.io;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -15,8 +15,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.hospitalbugs.fixtures.PatientBuilder;
 import com.hospitalbugs.fixtures.WardBuilder;
+import com.hospitalbugs.io.PatientWardStayCSVLineParser;
 import com.hospitalbugs.model.Patient;
+import com.hospitalbugs.model.PatientFactory;
 import com.hospitalbugs.model.Ward;
+import com.hospitalbugs.model.WardFactory;
 import com.madgag.testsupport.matchers.IsMap;
 
 @RunWith(MockitoJUnitRunner.class)

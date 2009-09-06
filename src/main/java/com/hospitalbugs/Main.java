@@ -29,13 +29,13 @@ import com.hospitalbugs.analysis.HospitalMicrobialLoad;
 import com.hospitalbugs.analysis.HospitalMicrobialLoadCalculationFactory;
 import com.hospitalbugs.analysis.PatientMicrobialLoadExposure;
 import com.hospitalbugs.analysis.RandomHospitalInfectionDataFactory;
+import com.hospitalbugs.io.InfectionCSVLineParser;
+import com.hospitalbugs.io.PatientWardStayCSVLineParser;
 import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
 import com.hospitalbugs.model.Infection;
+import com.hospitalbugs.model.PatientFactory;
 import com.hospitalbugs.model.StandardisedMicrobialLoad;
-import com.hospitalbugs.parser.InfectionCSVLineParser;
-import com.hospitalbugs.parser.PatientFactory;
-import com.hospitalbugs.parser.PatientWardStayCSVLineParser;
-import com.hospitalbugs.parser.WardFactory;
+import com.hospitalbugs.model.WardFactory;
 import com.madgag.util.csv.CSVFileParser;
 
 import edu.uci.ics.jung.algorithms.layout.Layout;
