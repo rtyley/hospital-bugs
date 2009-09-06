@@ -2,27 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.madgag</groupId>
-	<artifactId>hospital-bugs</artifactId>
+	<artifactId>hospital-bugs-parent</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>Hospital Bugs</name>
-	<packaging>jar</packaging>
+	<name>Hospital Bugs parent project</name>
+	<packaging>pom</packaging>
+	<scm>
+		<url>scm:git:git://github.com/rtyley/hospital-bugs.git</url>
+		<connection>scm:git:git://github.com/rtyley/hospital-bugs.git</connection>
+	</scm>
 	<organization>
 		<name>Roberto Tyley</name>
 	</organization>
+	<modules>
+		<module>hospital-bugs</module>
+		<module>util</module>
+	</modules>
 	<dependencies>
-
-
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>1.6</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.collections</groupId>
-			<artifactId>google-collections</artifactId>
-			<version>1.0-rc1</version>
-		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -41,29 +36,29 @@
 			<version>1.7</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-api</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-visualization</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-graph-impl</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.jung</groupId>
-			<artifactId>jung-samples</artifactId>
-			<version>2.0</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.scm</groupId>
+						<artifactId>maven-scm-provider-gitexe</artifactId>
+						<version>1.2</version>
+					</dependency>
+                  <dependency>
+                        <groupId>org.codehaus.plexus</groupId>
+                        <artifactId>plexus-utils</artifactId>
+                        <version>1.5.6</version>
+                    </dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-scm-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -74,23 +69,12 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.hospitalbugs.Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
+				<artifactId>maven-source-plugin</artifactId>
 				<executions>
 					<execution>
 						<phase>package</phase>
 						<goals>
-							<goal>shade</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>

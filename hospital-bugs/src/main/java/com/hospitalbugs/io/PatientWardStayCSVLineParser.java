@@ -13,7 +13,7 @@ import com.hospitalbugs.model.Patient;
 import com.hospitalbugs.model.PatientFactory;
 import com.hospitalbugs.model.Ward;
 import com.hospitalbugs.model.WardFactory;
-import com.madgag.util.csv.CSVLineParser;
+import com.madgag.io.csv.CSVLineParser;
 
 public class PatientWardStayCSVLineParser implements CSVLineParser<Patient> {
 

@@ -36,7 +36,7 @@ import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.PatientFactory;
 import com.hospitalbugs.model.StandardisedMicrobialLoad;
 import com.hospitalbugs.model.WardFactory;
-import com.madgag.util.csv.CSVFileParser;
+import com.madgag.io.csv.CSVFileParser;
 
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout2;

@@ -11,7 +11,7 @@ import org.joda.time.format.DateTimeFormatter;
 import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.Patient;
 import com.hospitalbugs.model.PatientFactory;
-import com.madgag.util.csv.CSVLineParser;
+import com.madgag.io.csv.CSVLineParser;
 
 public class InfectionCSVLineParser implements CSVLineParser<Infection> {
 

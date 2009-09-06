@@ -1,4 +1,4 @@
-package com.madgag.util.csv;
+package com.madgag.io.csv;
 
 import static java.util.Arrays.asList;
 

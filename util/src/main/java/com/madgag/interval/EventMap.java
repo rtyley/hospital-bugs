@@ -21,7 +21,7 @@ public class EventMap<InstantType extends Comparable<InstantType>, EventType> {
 		return floorEntry.getKey().contains(instant) ? floorEntry.getValue() : null;
 	}
 	
-	public EventType getLatestSignificantIntervalStartingAtOrBefore(InstantType instant) {
+	public EventType getLatestEventStartingAtOrBefore(InstantType instant) {
 		Map.Entry<SimpleInterval<InstantType>, EventType> entry = entryForEventStartingAtOrBefore(instant);
 		return entry==null?null:entry.getValue();
 	}
