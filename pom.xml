@@ -15,6 +15,7 @@
 	</organization>
 	<modules>
 		<module>hospital-bugs</module>
+		<module>hospital-bugs-gui</module>
 		<module>util</module>
 	</modules>
 	<dependencies>
@@ -35,6 +36,16 @@
 			<artifactId>mockito-core</artifactId>
 			<version>1.7</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.collections</groupId>
+			<artifactId>google-collections</artifactId>
+			<version>1.0-rc1</version>
 		</dependency>
 	</dependencies>
 	<build>
