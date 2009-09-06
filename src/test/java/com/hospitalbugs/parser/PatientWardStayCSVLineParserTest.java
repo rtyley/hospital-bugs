@@ -13,10 +13,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.hospitalbugs.fixtures.PatientBuilder;
+import com.hospitalbugs.fixtures.WardBuilder;
 import com.hospitalbugs.model.Patient;
-import com.hospitalbugs.model.PatientBuilder;
 import com.hospitalbugs.model.Ward;
-import com.hospitalbugs.model.WardBuilder;
 import com.madgag.testsupport.matchers.IsMap;
 
 @RunWith(MockitoJUnitRunner.class)

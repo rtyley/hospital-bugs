@@ -1,4 +1,6 @@
-package com.hospitalbugs.model;
+package com.hospitalbugs.fixtures;
+
+import com.hospitalbugs.model.Ward;
 
 public class WardBuilder {
 

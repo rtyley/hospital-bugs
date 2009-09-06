@@ -1,6 +1,9 @@
-package com.hospitalbugs.model;
+package com.hospitalbugs.fixtures;
 
 import org.joda.time.Interval;
+
+import com.hospitalbugs.model.Patient;
+import com.hospitalbugs.model.Ward;
 
 public class PatientBuilder {
 

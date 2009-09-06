@@ -10,13 +10,13 @@ import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.junit.Test;
 
+import com.hospitalbugs.fixtures.InfectionBuilder;
+import com.hospitalbugs.fixtures.PatientBuilder;
+import com.hospitalbugs.fixtures.WardBuilder;
 import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
 import com.hospitalbugs.model.Infection;
-import com.hospitalbugs.model.InfectionBuilder;
 import com.hospitalbugs.model.Patient;
-import com.hospitalbugs.model.PatientBuilder;
 import com.hospitalbugs.model.Ward;
-import com.hospitalbugs.model.WardBuilder;
 
 
 public class HospitalMicrobialLoadUsingLambdaModelTest {

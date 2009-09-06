@@ -18,13 +18,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.hospitalbugs.fixtures.InfectionBuilder;
+import com.hospitalbugs.fixtures.PatientBuilder;
+import com.hospitalbugs.fixtures.WardBuilder;
 import com.hospitalbugs.model.Infection;
-import com.hospitalbugs.model.InfectionBuilder;
 import com.hospitalbugs.model.Patient;
-import com.hospitalbugs.model.PatientBuilder;
 import com.hospitalbugs.model.StandardisedMicrobialLoad;
 import com.hospitalbugs.model.Ward;
-import com.hospitalbugs.model.WardBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientMicrobialLoadExposureTest {

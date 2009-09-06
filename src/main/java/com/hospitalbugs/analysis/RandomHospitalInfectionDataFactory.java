@@ -10,25 +10,31 @@ import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.ReadableInstant;
 
+import com.hospitalbugs.fixtures.InfectionBuilder;
+import com.hospitalbugs.fixtures.PatientBuilder;
+import com.hospitalbugs.fixtures.WardBuilder;
 import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
 import com.hospitalbugs.model.Infection;
-import com.hospitalbugs.model.InfectionBuilder;
 import com.hospitalbugs.model.Patient;
-import com.hospitalbugs.model.PatientBuilder;
 import com.hospitalbugs.model.Ward;
-import com.hospitalbugs.model.WardBuilder;
 
 public class RandomHospitalInfectionDataFactory {
 
 	private static Random random = new Random();
 	
 	public static HospitalInfectionDonorOccupancy generate(Interval fullTimeSpan, int numInfections, int numWards) {
-		List<Ward> wards = generateWards(numWards);
-		List<Infection> infections = generateInfectedPatientsOnWards(wards, numInfections,fullTimeSpan);
+		List<Infection> infections = generateInfections(fullTimeSpan, numInfections, numWards);
 		
 		
 		HospitalInfectionDonorOccupancy donorOccupancy = new HospitalInfectionDonorOccupancy(infections);
 		return donorOccupancy;
+	}
+
+	public static List<Infection> generateInfections(Interval fullTimeSpan,
+			int numInfections, int numWards) {
+		List<Ward> wards = generateWards(numWards);
+		List<Infection> infections = generateInfectedPatientsOnWards(wards, numInfections,fullTimeSpan);
+		return infections;
 	} 
 
 	private static List<Infection> generateInfectedPatientsOnWards(List<Ward> wards, int numInfections,Interval fullTimeSpan) {
@@ -39,7 +45,7 @@ public class RandomHospitalInfectionDataFactory {
 			ReadableInstant wardStayStart = fullTimeSpan.getStart().plus(1l+(long)(random.nextFloat() * fullTimeSpan.toDurationMillis())).toInstant();
 			Interval infectious = new Interval(new Instant(wardStayStart).plus(standardHours(random.nextInt(10))), standardHours(10+random.nextInt(150)));
 			for (int i=0;i<numWardStays;++i) {
-				Interval stay = new Interval(wardStayStart, standardHours(random.nextInt(100)));
+				Interval stay = new Interval(wardStayStart, standardHours(1+random.nextInt(100)));
 				
 				patientBuilder.wardStay(randomWard(wards), stay);
 				wardStayStart = stay.getEnd();

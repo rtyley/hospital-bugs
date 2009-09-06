@@ -9,6 +9,9 @@ import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.junit.Test;
 
+import com.hospitalbugs.fixtures.InfectionBuilder;
+import com.hospitalbugs.fixtures.PatientBuilder;
+import com.hospitalbugs.fixtures.WardBuilder;
 import com.madgag.testsupport.matchers.IsMap;
 
 

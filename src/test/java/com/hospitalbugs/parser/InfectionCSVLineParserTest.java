@@ -14,9 +14,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.hospitalbugs.fixtures.PatientBuilder;
 import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.Patient;
-import com.hospitalbugs.model.PatientBuilder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InfectionCSVLineParserTest {
@@ -32,8 +32,9 @@ public class InfectionCSVLineParserTest {
 		
 		InfectionCSVLineParser parser = new InfectionCSVLineParser(patientFactory, dateTimeZone);
 		
-		Infection infection = parser.parse(asList("1234","2009-04-27T19:00","2009-04-28T09:00","2009-04-30T11:30"));
+		Infection infection = parser.parse(asList("I1234","1234","2009-04-27T19:00","2009-04-28T09:00","2009-04-30T11:30"));
 		
+		assertThat(infection.getId(), equalTo("I1234"));
 		assertThat(infection.getPatient(), sameInstance(patient));
 		DateTime start = new DateTime(2009, 4, 27, 19, 00, 0, 0, dateTimeZone);
 		DateTime transition = new DateTime(2009, 4, 28, 9, 00, 0, 0, dateTimeZone);

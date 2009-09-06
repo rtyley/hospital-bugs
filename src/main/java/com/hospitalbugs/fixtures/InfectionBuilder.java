@@ -1,14 +1,23 @@
-package com.hospitalbugs.model;
+package com.hospitalbugs.fixtures;
 
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.joda.time.Interval;
 import org.joda.time.ReadableInstant;
 
+import com.hospitalbugs.model.Infection;
+import com.hospitalbugs.model.Patient;
+
 public class InfectionBuilder {
 
-	ReadableInstant susceptibilityStart=new Instant(-1000),  transition =new Instant(-100), endOfInfectiousness=new Instant(-10);
+	private static int defaultInfectionId;
+	private String infectionId = newInfectionId();
 	private Patient patient = new PatientBuilder().toPatient();
+	ReadableInstant susceptibilityStart=new Instant(-1000),  transition =new Instant(-100), endOfInfectiousness=new Instant(-10);
+	
+	private static String newInfectionId() {
+		return "I"+(defaultInfectionId++);
+	}
 	
 	public InfectionBuilder infectious(Interval infectiousInterval) {
 		return susceptabilityAndInfectiousness(new Duration(1),  infectiousInterval);
@@ -38,12 +47,7 @@ public class InfectionBuilder {
 	}
 
 	public Infection toInfection() {
-		return new Infection(patient, susceptibilityStart, transition, endOfInfectiousness);
+		return new Infection(infectionId, patient, susceptibilityStart, transition, endOfInfectiousness);
 	}
-
-
-
-	
-	
 
 }

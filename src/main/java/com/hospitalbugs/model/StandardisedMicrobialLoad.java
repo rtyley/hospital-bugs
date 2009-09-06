@@ -35,6 +35,10 @@ public class StandardisedMicrobialLoad {
 		}
 		return new StandardisedMicrobialLoad(added);
 	}
+	
+	public ImmutableMap<Infection, Float> getLoad() {
+		return load;
+	}
 
 	public StandardisedMicrobialLoad addWithScalar(
 			StandardisedMicrobialLoad additionalLoad, float scalar) {

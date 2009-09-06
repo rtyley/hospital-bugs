@@ -8,8 +8,10 @@ public class Infection {
 
 	private final Patient patient;
 	private final Interval infectiousInterval, susceptibilityInterval;
+	private final String infectionId;
 
-	public Infection(Patient patient, ReadableInstant susceptibilityStart, ReadableInstant transition, ReadableInstant endOfInfectiousness) {
+	public Infection(String infectionId, Patient patient, ReadableInstant susceptibilityStart, ReadableInstant transition, ReadableInstant endOfInfectiousness) {
+		this.infectionId = infectionId;
 		this.patient = patient;
 		if (susceptibilityStart.isAfter(transition)) {
 			throw new IllegalArgumentException();
@@ -35,6 +37,14 @@ public class Infection {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()+"["+patient+":"+ISODateTimeFormat.date().print(infectiousInterval.getStart())+"]";
+		return getClass().getSimpleName()+"["+patient+":"+ISODateTimeFormat.date().print(getTransition())+"]";
+	}
+
+	public ReadableInstant getTransition() {
+		return infectiousInterval.getStart();
+	}
+
+	public String getId() {
+		return infectionId;
 	}
 }
