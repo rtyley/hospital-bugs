@@ -6,7 +6,7 @@ import java.util.Map;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 
-import com.madgag.intervals.JodaEventSet;
+import com.madgag.intervals.joda.JodaEventSet;
 
 public class WardInfectionHistory {
 

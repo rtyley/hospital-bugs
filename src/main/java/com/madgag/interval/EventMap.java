@@ -1,8 +1,8 @@
-package com.madgag.intervals;
+package com.madgag.interval;
 
-import static com.madgag.intervals.BoundClosure.CLOSED;
-import static com.madgag.intervals.BoundClosure.OPEN;
-import static com.madgag.intervals.SimpleInterval.instantInterval;
+import static com.madgag.interval.Closure.CLOSED;
+import static com.madgag.interval.Closure.OPEN;
+import static com.madgag.interval.SimpleInterval.instantInterval;
 
 import java.util.Collection;
 import java.util.Map;

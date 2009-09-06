@@ -1,4 +1,4 @@
-package com.hospitalbugs.parser;
+package com.madgag.util.csv;
 
 import static java.util.Arrays.asList;
 
@@ -8,7 +8,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.madgag.util.csv.CSVLineParser;
 
 public class CSVFileParser {
 	public <T> List<T> parse(Reader reader, CSVLineParser<T> lineParser) throws IOException {

@@ -1,6 +1,6 @@
-package com.madgag.intervals;
+package com.madgag.intervals.joda;
 
-import static com.madgag.intervals.SimpleInterval.interval;
+import static com.madgag.interval.SimpleInterval.interval;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +8,9 @@ import java.util.NavigableMap;
 
 import org.joda.time.Interval;
 import org.joda.time.ReadableInstant;
+
+import com.madgag.interval.EventMap;
+import com.madgag.interval.SimpleInterval;
 
 
 @SuppressWarnings("unchecked")

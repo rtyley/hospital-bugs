@@ -1,3 +1,4 @@
+package com.hospitalbugs;
 import static java.lang.Math.log1p;
 import static java.lang.Math.round;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -31,11 +32,11 @@ import com.hospitalbugs.analysis.RandomHospitalInfectionDataFactory;
 import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
 import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.StandardisedMicrobialLoad;
-import com.hospitalbugs.parser.CSVFileParser;
 import com.hospitalbugs.parser.InfectionCSVLineParser;
 import com.hospitalbugs.parser.PatientFactory;
 import com.hospitalbugs.parser.PatientWardStayCSVLineParser;
 import com.hospitalbugs.parser.WardFactory;
+import com.madgag.util.csv.CSVFileParser;
 
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout2;

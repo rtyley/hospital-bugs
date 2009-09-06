@@ -1,9 +1,9 @@
-package com.madgag.intervals;
+package com.madgag.interval;
 
-import static com.madgag.intervals.BoundTypeWithClosure.MAX_CLOSED;
-import static com.madgag.intervals.BoundTypeWithClosure.MAX_OPEN;
-import static com.madgag.intervals.BoundTypeWithClosure.MIN_CLOSED;
-import static com.madgag.intervals.BoundTypeWithClosure.MIN_OPEN;
+import static com.madgag.interval.BoundTypeWithClosure.MAX_CLOSED;
+import static com.madgag.interval.BoundTypeWithClosure.MAX_OPEN;
+import static com.madgag.interval.BoundTypeWithClosure.MIN_CLOSED;
+import static com.madgag.interval.BoundTypeWithClosure.MIN_OPEN;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 

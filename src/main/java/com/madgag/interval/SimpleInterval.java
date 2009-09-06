@@ -1,9 +1,9 @@
-package com.madgag.intervals;
+package com.madgag.interval;
 
-import static com.madgag.intervals.BoundClosure.CLOSED;
-import static com.madgag.intervals.BoundClosure.OPEN;
-import static com.madgag.intervals.BoundType.MAX;
-import static com.madgag.intervals.BoundType.MIN;
+import static com.madgag.interval.BoundType.MAX;
+import static com.madgag.interval.BoundType.MIN;
+import static com.madgag.interval.Closure.CLOSED;
+import static com.madgag.interval.Closure.OPEN;
 
 import java.util.Comparator;
 
@@ -16,7 +16,7 @@ public class SimpleInterval<T extends Comparable<T>> {
 		this(start,CLOSED, end, OPEN);
 	}
 	
-	public SimpleInterval(T start, BoundClosure startClosure, T end, BoundClosure endClosure) {
+	public SimpleInterval(T start, Closure startClosure, T end, Closure endClosure) {
 		if (start.compareTo(end) > 0) {
 			throw new IllegalArgumentException();
 		}
@@ -28,7 +28,7 @@ public class SimpleInterval<T extends Comparable<T>> {
 		return new SimpleInterval<T>(start,end);
 	}
 	
-	public static <T extends Comparable<T>> SimpleInterval<T> instantInterval(T instant, BoundClosure closure) {
+	public static <T extends Comparable<T>> SimpleInterval<T> instantInterval(T instant, Closure closure) {
 		return new SimpleInterval<T>(instant, closure, instant, closure);
 	}
 	

@@ -1,12 +1,15 @@
-package com.madgag.intervals;
+package com.madgag.intervals.joda;
 
-import static com.madgag.intervals.SimpleInterval.interval;
+import static com.madgag.interval.SimpleInterval.interval;
 
 import java.util.Set;
 
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 import org.joda.time.ReadableInstant;
+
+import com.madgag.interval.EventSet;
+import com.madgag.interval.SimpleInterval;
 
 
 @SuppressWarnings("unchecked")

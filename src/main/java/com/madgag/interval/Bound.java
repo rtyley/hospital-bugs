@@ -1,4 +1,4 @@
-package com.madgag.intervals;
+package com.madgag.interval;
 
 public class Bound<T extends Comparable<T>> {
 

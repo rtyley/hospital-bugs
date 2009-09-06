@@ -1,4 +1,4 @@
-package com.madgag.intervals;
+package com.madgag.interval;
 
 import static java.lang.Boolean.TRUE;
 

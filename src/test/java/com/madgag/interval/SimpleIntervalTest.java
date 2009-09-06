@@ -1,12 +1,14 @@
-package com.madgag.intervals;
+package com.madgag.interval;
 
-import static com.madgag.intervals.BoundClosure.CLOSED;
-import static com.madgag.intervals.BoundClosure.OPEN;
-import static com.madgag.intervals.SimpleInterval.instantInterval;
+import static com.madgag.interval.Closure.CLOSED;
+import static com.madgag.interval.Closure.OPEN;
+import static com.madgag.interval.SimpleInterval.instantInterval;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
+import com.madgag.interval.SimpleInterval;
 
 public class SimpleIntervalTest {
 
