@@ -3,12 +3,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.madgag</groupId>
 	<artifactId>util</artifactId>
-	<version>1.1-SNAPSHOT</version>
+	<version>1.1</version>
 	<name>General utility and collections classes</name>
 	<parent>
 		<groupId>com.madgag</groupId>
 		<artifactId>hospital-bugs-parent</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1</version>
 	</parent>
 	<packaging>jar</packaging>
 	<organization>
