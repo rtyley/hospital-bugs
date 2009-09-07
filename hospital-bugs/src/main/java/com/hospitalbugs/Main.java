@@ -53,7 +53,7 @@ public class Main {
 				infections);
 
 		HospitalMicrobialLoad hospitalMicrobialLoad = new HospitalMicrobialLoadCalculationFactory()
-				.lambdaModel(donorOccupancy, parsedArgs.getLambda(),	new ConstantTransportFunction(parsedArgs.getTransport()));
+				.lambdaModel(donorOccupancy, parsedArgs.getLambda(),	new ConstantTransportFunction(parsedArgs.getTransportConstant()));
 		
 		OutputStreamWriter outputWriter = new OutputStreamWriter(System.out);
 		MicrobialLoadExposureReportWriter reportWriter = new MicrobialLoadExposureReportWriter(outputWriter,new PatientMicrobialLoadExposure());

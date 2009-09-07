@@ -15,6 +15,6 @@ public interface CommandLineArgs {
 	@Option(longName = "lambda", description="Lambda factor by which load is reduced day-by-day")
 	float getLambda();
 	
-	@Option(longName = "transport", description="Transport factor by which load is reduced from ward-to-ward")
-	float getTransport();
+	@Option(longName = "transport-constant", description="Constant Transport factor by which load is reduced from ward-to-ward")
+	float getTransportConstant();
 }
