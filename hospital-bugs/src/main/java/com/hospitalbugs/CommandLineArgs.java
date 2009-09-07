@@ -12,4 +12,9 @@ public interface CommandLineArgs {
 	@Option(shortName="i", longName = "infections", description="CSV file containg patient infections, one infection per line")
 	String getInfectionsFile();
 
+	@Option(longName = "lambda", description="Lambda factor by which load is reduced day-by-day")
+	float getLambda();
+	
+	@Option(longName = "transport", description="Transport factor by which load is reduced from ward-to-ward")
+	float getTransport();
 }

@@ -1,6 +1,5 @@
 package com.hospitalbugs;
 
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,7 +21,6 @@ import com.hospitalbugs.io.PatientWardStayCSVLineParser;
 import com.hospitalbugs.model.HospitalInfectionDonorOccupancy;
 import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.PatientFactory;
-import com.hospitalbugs.model.StandardisedMicrobialLoad;
 import com.hospitalbugs.model.WardFactory;
 import com.madgag.io.csv.CSVFileParser;
 
@@ -31,9 +29,9 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException,
 			IOException, ArgumentValidationException {
 		
-		CommandLineArgs result;
+		CommandLineArgs parsedArgs;
 		try {
-			result = CliFactory.parseArguments(CommandLineArgs.class, args);
+			parsedArgs = CliFactory.parseArguments(CommandLineArgs.class, args);
 		} catch (ArgumentValidationException e) {
 			System.err.println(e.getMessage());
 			return;
@@ -44,18 +42,18 @@ public class Main {
 		PatientFactory patientFactory = new PatientFactory();
 		WardFactory wardFactory = new WardFactory();
 
-		csvFileParser.parse(new FileReader(result.getWardStaysFile()),
+		csvFileParser.parse(new FileReader(parsedArgs.getWardStaysFile()),
 				new PatientWardStayCSVLineParser(patientFactory, wardFactory,
 						dateTimeZone));
 		List<Infection> infections = csvFileParser.parse(
-				new FileReader(result.getInfectionsFile()), new InfectionCSVLineParser(
+				new FileReader(parsedArgs.getInfectionsFile()), new InfectionCSVLineParser(
 						patientFactory, dateTimeZone));
 
 		HospitalInfectionDonorOccupancy donorOccupancy = new HospitalInfectionDonorOccupancy(
 				infections);
 
 		HospitalMicrobialLoad hospitalMicrobialLoad = new HospitalMicrobialLoadCalculationFactory()
-				.lambdaModel(donorOccupancy, 0.7f,	new ConstantTransportFunction(0.2f));
+				.lambdaModel(donorOccupancy, parsedArgs.getLambda(),	new ConstantTransportFunction(parsedArgs.getTransport()));
 		
 		OutputStreamWriter outputWriter = new OutputStreamWriter(System.out);
 		MicrobialLoadExposureReportWriter reportWriter = new MicrobialLoadExposureReportWriter(outputWriter,new PatientMicrobialLoadExposure());
