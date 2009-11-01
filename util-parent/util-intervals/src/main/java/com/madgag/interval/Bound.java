@@ -1,5 +1,7 @@
 package com.madgag.interval;
 
+import static com.madgag.interval.BoundType.MIN;
+
 public class Bound<T extends Comparable<T>> {
 
 	private final T val;
@@ -25,7 +27,7 @@ public class Bound<T extends Comparable<T>> {
 	
 	@Override
 	public String toString() {
-		if (boundTypeWithClosure.getBoundType()==BoundType.MIN) {
+		if (boundTypeWithClosure.getBoundType()==MIN) {
 			return boundTypeWithClosure.getTextRepresentation()+val;
 		} else {
 			return val + boundTypeWithClosure.getTextRepresentation();

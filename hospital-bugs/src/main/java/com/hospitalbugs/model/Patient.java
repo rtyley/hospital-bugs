@@ -4,11 +4,11 @@ import java.util.Map;
 
 import org.joda.time.Interval;
 
-import com.madgag.interval.joda.JodaEventMap;
+import com.madgag.interval.collections.joda.JodaIntervalMap;
 
 public class Patient {
 
-	private JodaEventMap<Ward> wardStays = new JodaEventMap<Ward>();
+	private JodaIntervalMap<Ward> wardStays = new JodaIntervalMap<Ward>();
 	private final String id;
 
 	public Patient(String id) {

@@ -1,4 +1,5 @@
 package com.hospitalbugs.gui;
+
 import static java.lang.Math.log1p;
 import static java.lang.Math.round;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -172,11 +173,7 @@ public class Main {
         jf.pack();
         jf.setVisible(true);
 	}
-    /**
-     * Generates a graph: in this case, reads it from the file
-     * "samples/datasetsgraph/simple.net"
-     * @return A sample undirected graph
-     */
+
     public static Graph<Infection, InfectionExposure> getGraph(List<Infection> infections, HospitalMicrobialLoad hospitalMicrobialLoad)
     {
     	

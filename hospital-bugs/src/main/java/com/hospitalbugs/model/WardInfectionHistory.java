@@ -6,15 +6,15 @@ import java.util.Map;
 import org.joda.time.Duration;
 import org.joda.time.Interval;
 
-import com.madgag.interval.joda.JodaEventSet;
+import com.madgag.interval.collections.joda.JodaIntervalSet;
 
 public class WardInfectionHistory {
 
-	private final Map<Infection,JodaEventSet> infections = new HashMap<Infection, JodaEventSet>(); 
+	private final Map<Infection, JodaIntervalSet> infections = new HashMap<Infection, JodaIntervalSet>();
 	
 	public Map<Infection, Duration> infectionSourcesFor(Interval interval) {
 		Map<Infection, Duration> infectionDurations = new HashMap<Infection, Duration>();
-		for (Map.Entry<Infection,JodaEventSet> entry : infections.entrySet()) {
+		for (Map.Entry<Infection, JodaIntervalSet> entry : infections.entrySet()) {
 			Duration infectionDurationDuringInterval = entry.getValue().totalSubSetDurationFor(interval);
 			if (!infectionDurationDuringInterval.equals(Duration.ZERO)) {
 				infectionDurations.put(entry.getKey(), infectionDurationDuringInterval);
@@ -24,11 +24,11 @@ public class WardInfectionHistory {
 	}
 
 	public void add(Infection infection, Interval interval) {
-		JodaEventSet infectionEventSet = infections.get(infection);
-		if (infectionEventSet==null) {
-			infections.put(infection, infectionEventSet = new JodaEventSet());
+		JodaIntervalSet infectionIntervalSet = infections.get(infection);
+		if (infectionIntervalSet ==null) {
+			infections.put(infection, infectionIntervalSet = new JodaIntervalSet());
 		}
-		infectionEventSet.add(interval);
+		infectionIntervalSet.add(interval);
 	}
 
 }

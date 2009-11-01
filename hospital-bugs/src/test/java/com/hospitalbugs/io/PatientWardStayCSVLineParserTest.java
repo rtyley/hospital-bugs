@@ -15,7 +15,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.hospitalbugs.fixtures.PatientBuilder;
 import com.hospitalbugs.fixtures.WardBuilder;
-import com.hospitalbugs.io.PatientWardStayCSVLineParser;
 import com.hospitalbugs.model.Patient;
 import com.hospitalbugs.model.PatientFactory;
 import com.hospitalbugs.model.Ward;

@@ -4,13 +4,15 @@ import static com.madgag.interval.BoundType.MAX;
 import static com.madgag.interval.BoundType.MIN;
 import static com.madgag.interval.Closure.CLOSED;
 import static com.madgag.interval.Closure.OPEN;
+import static com.madgag.interval.IntervalClosure.CLOSED_CLOSED;
+import static com.madgag.interval.IntervalClosure.OPEN_OPEN;
 
-import java.util.Comparator;
 
 
-public class SimpleInterval<T extends Comparable<T>> {
+public class SimpleInterval<T extends Comparable<T>> extends AbstractInterval<T> {
 
 	private final Bound<T> startBound, endBound;
+	private IntervalClosure intervalClosure;
 
 	public SimpleInterval(T start, T end) {
 		this(start,CLOSED, end, OPEN);
@@ -20,6 +22,7 @@ public class SimpleInterval<T extends Comparable<T>> {
 		if (start.compareTo(end) > 0) {
 			throw new IllegalArgumentException();
 		}
+		intervalClosure = IntervalClosure.of(startClosure, endClosure);
 		this.startBound = new Bound<T>(BoundTypeWithClosure.get(MIN, startClosure), start);
 		this.endBound = new Bound<T>(BoundTypeWithClosure.get(MAX, endClosure), end);
 	}
@@ -38,30 +41,6 @@ public class SimpleInterval<T extends Comparable<T>> {
 	
 	public T getEnd() {
 		return endBound.getValue();
-	}
-	
-	public boolean contains(T point) {
-		return startBound.encloses(point) && endBound.encloses(point);
-	}
-
-	public boolean isAfter(T point) {
-		return !startBound.encloses(point);
-	}
-	
-	public boolean isBefore(T point) {
-		return !endBound.encloses(point);
-	}
-	
-	public boolean isAfter(SimpleInterval<T> other) {
-		return isAfter(other.getEnd());
-	}
-	
-	public boolean isBefore(SimpleInterval<T> other) {
-		return isBefore(other.getStart());
-	}
-	
-	public boolean overlaps(SimpleInterval<T> other) {
-		return !isBefore(other) && !other.isBefore(this);
 	}
 	
 	@Override
@@ -102,24 +81,23 @@ public class SimpleInterval<T extends Comparable<T>> {
 	public String toString() {
 		return startBound+" - "+ endBound;
 	}
-
 	
-	public static class OverlapIsEqualityComparator<T extends Comparable<T>> implements Comparator<SimpleInterval<T>> {
-		
-		@SuppressWarnings("unchecked")
-		private static OverlapIsEqualityComparator INSTANCE = new OverlapIsEqualityComparator();
-		
-	    @SuppressWarnings("unchecked")
-	    public static final <T extends Comparable<T>> Comparator<SimpleInterval<T>> instance() {
-	        return (Comparator<SimpleInterval<T>>) INSTANCE;
-	    }
-
-		@Override
-		public int compare(SimpleInterval<T> o1, SimpleInterval<T> o2) {
-			if (o1.overlaps(o2)) {
-				return 0;
-			}
-			return o1.isBefore(o2)?-1:1;
-		}
+	public Interval<T> getInterior() {
+		return this.withClosure(OPEN_OPEN);
 	}
+
+	public Interval<T> getRealClosure() {
+		return this.withClosure(CLOSED_CLOSED);
+	}
+	
+	protected Interval<T> withClosure(IntervalClosure ic) {
+		return new SimpleInterval<T>(getStart(), ic.getMin(), getEnd(), ic.getMax());
+	}
+
+
+	@Override
+	public IntervalClosure getClosure() {
+		return intervalClosure;
+	}
+
 }

@@ -17,7 +17,7 @@ import com.hospitalbugs.model.Infection;
 import com.hospitalbugs.model.StandardisedMicrobialLoad;
 import com.hospitalbugs.model.Ward;
 import com.hospitalbugs.model.WardInfectionHistory;
-import com.madgag.interval.joda.JodaEventMap;
+import com.madgag.interval.collections.joda.JodaIntervalMap;
 
 public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialLoad {
 
@@ -82,7 +82,7 @@ public class HospitalMicrobialLoadUsingLambdaModel implements HospitalMicrobialL
 	}
 	
 	static class WardData {
-		JodaEventMap<StandardisedMicrobialLoad> data = new JodaEventMap<StandardisedMicrobialLoad>();
+		JodaIntervalMap<StandardisedMicrobialLoad> data = new JodaIntervalMap<StandardisedMicrobialLoad>();
 		
 		StandardisedMicrobialLoad microbialLoadFor(Interval wardOccupationInterval) {
 			StandardisedMicrobialLoad totalLoad = ZERO;
