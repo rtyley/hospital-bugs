@@ -16,13 +16,12 @@
 	<modules>
 		<module>hospital-bugs</module>
 		<module>hospital-bugs-gui</module>
-		<module>util-parent</module>
 	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.5</version>
+			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
